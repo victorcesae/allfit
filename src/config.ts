@@ -4,7 +4,7 @@ export const STORE = {
   // Owner's WhatsApp: country code + area code + number, digits only. e.g. "5511999998888"
   whatsapp: "5571993861931",
   instagram: "use.allfit", // handle without @
-  sizes: ["P", "M", "G", "GG"],
+  sizes: ["PP", "P", "M", "G", "GG"],
 };
 
 /** "5571993861931" -> "(71) 99386-1931" */

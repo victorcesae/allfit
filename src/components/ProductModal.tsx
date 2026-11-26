@@ -133,7 +133,7 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
               <span>Tamanho</span>
               <strong className={size ? "" : "muted"}>{size ?? "Selecione"}</strong>
             </div>
-            <div className="sizes" role="radiogroup" aria-label="Tamanho">
+            <div className="sizes" role="radiogroup" aria-label="Tamanho" style={{ gridTemplateColumns: `repeat(${STORE.sizes.length}, 1fr)` }}>
               {STORE.sizes.map((s) => (
                 <button key={s} role="radio" aria-checked={size === s} className={`size ${size === s ? "is-active" : ""}`} onClick={() => { setSize(s); setNeedSize(false); }}>
                   {s}

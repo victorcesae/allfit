@@ -15,12 +15,14 @@ interface Props {
   onBrowse: () => void;
   onUseShared: () => void;
   onMergeShared: () => void;
+  onClear: () => void;
 }
 
 const sum = (items: BagItem[]) => items.reduce((n, i) => n + i.qty, 0);
 
-export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrowse, onUseShared, onMergeShared }: Props) {
+export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrowse, onUseShared, onMergeShared, onClear }: Props) {
   const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
+  const [confirmClear, setConfirmClear] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -34,6 +36,7 @@ export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrow
   }, [open, onClose]);
 
   useEffect(() => setShareState("idle"), [items, open]);
+  useEffect(() => setConfirmClear(false), [open]);
 
   const share = async () => {
     const url = bagShareUrl(items);
@@ -121,6 +124,19 @@ export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrow
           </div>
         ) : (
           <>
+            <div className="bag-tools">
+              {confirmClear ? (
+                <div className="clear-confirm" role="alertdialog" aria-label="Confirmar esvaziar sacola">
+                  <span>Esvaziar a sacola?</span>
+                  <button className="link-btn danger" onClick={() => { onClear(); setConfirmClear(false); }} tabIndex={tab}>Sim, esvaziar</button>
+                  <button className="link-btn" onClick={() => setConfirmClear(false)} tabIndex={tab}>Cancelar</button>
+                </div>
+              ) : (
+                <button className="link-btn" onClick={() => setConfirmClear(true)} tabIndex={tab}>
+                  <TrashIcon size={16} /> Esvaziar sacola
+                </button>
+              )}
+            </div>
             {rows(true)}
             <footer className="drawer-foot">
               <p className="muted small">

@@ -419,3 +419,10 @@ html { scrollbar-color: #d6bcc4 transparent; }
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
 .footer-brand p, .footer-col span, .footer-legal { color: #e3c3d0; }
+
+/* ---------- clear bag ---------- */
+.bag-tools { display: flex; justify-content: flex-end; padding: 6px var(--gutter) 0; }
+.bag-tools .link-btn { font-weight: 500; color: var(--ink-3); }
+.clear-confirm { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 4px 14px; font-size: 14px; color: var(--ink); }
+.clear-confirm .link-btn { color: var(--ink); font-weight: 600; }
+.clear-confirm .link-btn.danger { color: #a3203c; }

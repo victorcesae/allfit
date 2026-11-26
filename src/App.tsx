@@ -354,6 +354,7 @@ export default function App() {
         onBrowse={() => goShop()}
         onUseShared={() => { bag.replaceWith(shared ?? []); finishShared("Sacola carregada"); }}
         onMergeShared={() => { bag.mergeIn(shared ?? []); finishShared("Peças adicionadas à sua sacola"); }}
+        onClear={bag.clear}
       />
 
       <div className={`toast ${toast && !bagOpen ? "is-on" : ""}`} role="status" aria-live="polite">
