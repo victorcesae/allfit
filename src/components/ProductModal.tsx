@@ -132,7 +132,7 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
           <div className={`field ${needSize && !size ? "has-error" : ""}`} id="size-picker">
             <div className="field-head">
               <span>Tamanho</span>
-              {needSize && !size ? <strong className="error">Escolha um tamanho</strong> : <strong>{size ?? "—"}</strong>}
+              {needSize && !size ? <strong className="error">Escolha um tamanho</strong> : <strong className={size ? "" : "muted"}>{size ?? "Selecione"}</strong>}
             </div>
             <div className="sizes" role="radiogroup" aria-label="Tamanho">
               {STORE.sizes.map((s) => (

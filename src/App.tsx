@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { products, TYPES, BOTTOMS, FAMILIES, type Product, type Bottom } from "./catalog";
 import { STORE, phoneLabel, asset, instagramUrl, instagramLabel } from "./config";
-import { whatsappHelloUrl } from "./whatsapp";
+import { whatsappHelloUrl, type BagItem } from "./whatsapp";
+import { sharedBagFromHash } from "./share";
 import { useBag } from "./bag";
 import { ProductCard } from "./components/ProductCard";
 import { ProductModal } from "./components/ProductModal";
@@ -31,12 +32,21 @@ export default function App() {
   const [families, setFamilies] = useState<string[]>([]);
   const [open, setOpen] = useState<Product | null>(null);
   const [bagOpen, setBagOpen] = useState(false);
+  const [shared, setShared] = useState<BagItem[] | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
 
-  // deep links: #p12 opens that product
+  // deep links: #p12 opens that product, #s=27M2.5G opens a shared bag
   useEffect(() => {
     const sync = () => {
+      const fromLink = sharedBagFromHash(location.hash);
+      if (fromLink) {
+        setShared(fromLink);
+        setOpen(null);
+        setBagOpen(true);
+        return;
+      }
       const id = location.hash.slice(1);
       setOpen(products.find((p) => p.id === id) ?? null);
     };
@@ -46,7 +56,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      setPastHero(window.scrollY > window.innerHeight * 0.75);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -89,6 +102,21 @@ export default function App() {
     if (t) pickType(t);
     setBagOpen(false);
     document.getElementById("colecao")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const clearHash = () => history.replaceState(null, "", location.pathname + location.search);
+  const closeBag = useCallback(() => {
+    setBagOpen(false);
+    setShared((cur) => {
+      if (cur) clearHash();
+      return null;
+    });
+  }, []);
+  const finishShared = (msg: string) => {
+    setShared(null);
+    clearHash();
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 2600);
   };
 
   const addToBag = (p: Product, size: string, qty: number) => {
@@ -204,7 +232,7 @@ export default function App() {
               <div className="colors" aria-label="Filtrar por cor">
                 <span className="colors-label">Cor</span>
                 <div className="color-list">
-                  {FAMILIES.map((f) => {
+                  {FAMILIES.filter((f) => familyCounts[f.id] > 0 || families.includes(f.id)).map((f) => {
                     const n = familyCounts[f.id];
                     const active = families.includes(f.id);
                     const light = f.id === "neutro";
@@ -301,7 +329,7 @@ export default function App() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar no WhatsApp"
-        hidden={bagOpen || !!open}
+        hidden={bagOpen || !!open || !pastHero}
       >
         <WhatsAppIcon size={28} />
       </a>
@@ -317,7 +345,17 @@ export default function App() {
         <ProductModal product={open} variants={byName[open.name]} onClose={closeProduct} onSwitch={openProduct} onAdd={addToBag} />
       )}
 
-      <BagDrawer open={bagOpen} items={bag.items} onClose={() => setBagOpen(false)} setQty={bag.setQty} remove={bag.remove} onBrowse={() => goShop()} />
+      <BagDrawer
+        open={bagOpen}
+        items={bag.items}
+        shared={shared}
+        onClose={closeBag}
+        setQty={bag.setQty}
+        remove={bag.remove}
+        onBrowse={() => goShop()}
+        onUseShared={() => { bag.replaceWith(shared ?? []); finishShared("Sacola carregada"); }}
+        onMergeShared={() => { bag.mergeIn(shared ?? []); finishShared("Peças adicionadas à sua sacola"); }}
+      />
 
       <div className={`toast ${toast && !bagOpen ? "is-on" : ""}`} role="status" aria-live="polite">
         {toast && (

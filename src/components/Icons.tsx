@@ -33,3 +33,4 @@ export const InstagramIcon = ({ size = 20, className }: P) => (
     <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none" />
   </svg>
 );
+export const LinkIcon = stroke("M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1");

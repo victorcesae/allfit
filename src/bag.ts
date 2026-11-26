@@ -39,7 +39,20 @@ export function useBag() {
 
   const remove = useCallback((index: number) => setItems((cur) => cur.filter((_, i) => i !== index)), []);
   const clear = useCallback(() => setItems([]), []);
+  /** Shared-bag link: replace this bag with it, or merge it in (same piece + size adds up). */
+  const replaceWith = useCallback((next: BagItem[]) => setItems(next.map((i) => ({ ...i }))), []);
+  const mergeIn = useCallback((more: BagItem[]) => {
+    setItems((cur) => {
+      const out = cur.map((i) => ({ ...i }));
+      for (const m of more) {
+        const hit = out.find((i) => i.product.id === m.product.id && i.size === m.size);
+        if (hit) hit.qty = Math.min(20, hit.qty + m.qty);
+        else out.push({ ...m });
+      }
+      return out;
+    });
+  }, []);
   const count = items.reduce((n, i) => n + i.qty, 0);
 
-  return { items, add, setQty, remove, clear, count };
+  return { items, add, setQty, remove, clear, replaceWith, mergeIn, count };
 }

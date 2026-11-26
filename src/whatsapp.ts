@@ -1,5 +1,6 @@
 import { STORE } from "./config";
 import type { Product } from "./catalog";
+import { bagShareUrl } from "./share";
 
 export interface BagItem {
   product: Product;
@@ -16,6 +17,9 @@ export function whatsappUrl(items: BagItem[]): string {
     items.length === 1 ? "Tenho interesse nesta peça:" : "Tenho interesse nestas peças:",
     "",
     ...items.map(line),
+    "",
+    "Ver as peças com fotos:",
+    bagShareUrl(items),
     "",
     "Pode me passar o valor e a disponibilidade?",
   ].join("\n");

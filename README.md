@@ -7,7 +7,7 @@ Vitrine de moda fitness. O cliente escolhe a peça, cor e tamanho e o pedido abr
 ```
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # gera dist/ (publicado automaticamente no GitHub Pages a cada push na main)
+npm run build    # gera dist/ (a Vercel publica automaticamente a cada push na main: https://useallfit.vercel.app)
 ```
 
 ## Configurar
