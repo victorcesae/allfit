@@ -2,13 +2,13 @@
 // so the WhatsApp/Instagram preview shows the whole bag in one picture.
 // GET /api/bag-image?code=27M2.5G.36GG
 import { ImageResponse } from "@vercel/og";
-import catalog from "../src/data/catalog.json" with { type: "json" };
+import { PRODUCTS } from "./_products.js";
 
 export const config = { runtime: "edge" };
 
 const SIZES = ["GG", "PP", "P", "M", "G"];
 const ITEM = new RegExp(`^(\\d{1,3})(${SIZES.join("|")})(\\d{0,2})$`);
-const products = catalog.products;
+const products = PRODUCTS;
 
 function parseBag(code) {
   const items = [];

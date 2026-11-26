@@ -5,10 +5,7 @@
 //   /p/p15        -> one product
 // The HTML carries Open Graph tags for crawlers (they don't run JS); people are sent
 // straight on to the store (/#s=... or /#p15), which the React app already understands.
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
-const { products } = require("../src/data/catalog.json");
+import { PRODUCTS as products } from "./_products.js";
 
 const SIZES = ["GG", "PP", "P", "M", "G"]; // longest first so "PP"/"GG" win over "P"/"G"
 const ITEM = new RegExp(`^(\\d{1,3})(${SIZES.join("|")})(\\d{0,2})$`);
