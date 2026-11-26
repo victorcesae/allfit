@@ -26,3 +26,10 @@ export const LeafIcon = stroke("M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19c3-4 6-
 export const DumbbellIcon = stroke("M6 7v10M3 9.5v5M18 7v10M21 9.5v5M6 12h12");
 export const HeartIcon = stroke("M12 20s-7.5-4.6-7.5-10.1A4.2 4.2 0 0 1 12 7.4a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20Z");
 export const PaletteIcon = stroke("M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1.3-1-1.6-1-2.8 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3ZM7.5 11.5h0M10 7.5h0M15 7.5h0");
+export const InstagramIcon = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden className={className}>
+    <rect x="3" y="3" width="18" height="18" rx="5" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none" />
+  </svg>
+);

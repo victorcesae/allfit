@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { products, TYPES, BOTTOMS, FAMILIES, type Product, type Bottom } from "./catalog";
-import { STORE, phoneLabel, asset } from "./config";
+import { STORE, phoneLabel, asset, instagramUrl, instagramLabel } from "./config";
 import { whatsappHelloUrl } from "./whatsapp";
 import { useBag } from "./bag";
 import { ProductCard } from "./components/ProductCard";
 import { ProductModal } from "./components/ProductModal";
 import { BagDrawer } from "./components/BagDrawer";
-import { ArrowIcon, BagIcon, CheckIcon, DumbbellIcon, HeartIcon, LeafIcon, PaletteIcon, WhatsAppIcon } from "./components/Icons";
+import { ArrowIcon, BagIcon, CheckIcon, DumbbellIcon, HeartIcon, InstagramIcon, LeafIcon, PaletteIcon, WhatsAppIcon } from "./components/Icons";
 
 const byName = products.reduce<Record<string, Product[]>>((acc, p) => {
   (acc[p.name] ||= []).push(p);
@@ -256,9 +256,16 @@ export default function App() {
               <h2>Ficou com dúvida no tamanho ou na cor?</h2>
               <p>Manda uma mensagem. A gente responde pelo WhatsApp e te ajuda a escolher.</p>
             </div>
-            <a className="btn btn-dark btn-lg" href={whatsappHelloUrl()} target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon size={20} /> {phoneLabel}
-            </a>
+            <div className="help-actions">
+              <a className="btn btn-dark btn-lg" href={whatsappHelloUrl()} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon size={20} /> {phoneLabel}
+              </a>
+              {instagramUrl && (
+                <a className="text-link" href={instagramUrl} target="_blank" rel="noopener noreferrer">
+                  <InstagramIcon size={18} />&nbsp;Novidades primeiro no {instagramLabel}
+                </a>
+              )}
+            </div>
           </div>
         </section>
       </main>
@@ -277,8 +284,8 @@ export default function App() {
           </nav>
           <div className="footer-col">
             <h3>Atendimento</h3>
-            <a href={whatsappHelloUrl()} target="_blank" rel="noopener noreferrer">WhatsApp {phoneLabel}</a>
-            {STORE.instagram && <a href={`https://instagram.com/${STORE.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer">Instagram {STORE.instagram}</a>}
+            <a href={whatsappHelloUrl()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16} /> {phoneLabel}</a>
+            {instagramUrl && <a href={instagramUrl} target="_blank" rel="noopener noreferrer"><InstagramIcon size={16} /> {instagramLabel}</a>}
             <span>Pedidos e pagamento combinados pelo WhatsApp.</span>
           </div>
         </div>

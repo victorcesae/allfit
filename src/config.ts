@@ -3,7 +3,7 @@ export const STORE = {
   name: "allFit",
   // Owner's WhatsApp: country code + area code + number, digits only. e.g. "5511999998888"
   whatsapp: "5571993861931",
-  instagram: "",
+  instagram: "use.allfit", // handle without @
   sizes: ["P", "M", "G", "GG"],
 };
 
@@ -15,3 +15,6 @@ export const phoneLabel = (() => {
 
 /** Path of a file in /public, respecting the deploy base (e.g. /allfit/ on GitHub Pages). */
 export const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+
+export const instagramUrl = STORE.instagram ? `https://www.instagram.com/${STORE.instagram.replace(/^@/, "")}/` : "";
+export const instagramLabel = STORE.instagram ? `@${STORE.instagram.replace(/^@/, "")}` : "";
