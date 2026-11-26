@@ -1,0 +1,29 @@
+import { STORE } from "./config";
+import type { Product } from "./catalog";
+
+export interface BagItem {
+  product: Product;
+  size: string;
+  qty: number;
+}
+
+const line = ({ product: p, size, qty }: BagItem) =>
+  `• ${qty}x ${p.name} — ${p.color} — Tam. ${size} (ref. ${p.id.toUpperCase()})`;
+
+export function whatsappUrl(items: BagItem[]): string {
+  const text = [
+    "Olá! Vim pelo site da allFit.",
+    items.length === 1 ? "Tenho interesse nesta peça:" : "Tenho interesse nestas peças:",
+    "",
+    ...items.map(line),
+    "",
+    "Pode me passar o valor e a disponibilidade?",
+  ].join("\n");
+  const number = STORE.whatsapp.replace(/\D/g, "");
+  return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
+}
+
+export function whatsappHelloUrl(): string {
+  const number = STORE.whatsapp.replace(/\D/g, "");
+  return `https://wa.me/${number}?text=${encodeURIComponent("Olá! Vim pelo site da allFit e queria tirar uma dúvida.")}`;
+}

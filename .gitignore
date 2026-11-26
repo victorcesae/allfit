@@ -1,0 +1,9 @@
+node_modules
+dist
+*.local
+
+# local / generated, not needed by the site
+.claude/
+recortes/
+looks/
+estilos-comparacao.jpg
