@@ -7,3 +7,4 @@ dist
 recortes/
 looks/
 estilos-comparacao.jpg
+*.tsbuildinfo
