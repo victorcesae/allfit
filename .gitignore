@@ -8,3 +8,6 @@ recortes/
 looks/
 estilos-comparacao.jpg
 *.tsbuildinfo
+
+# locally installed agent skills (impeccable), not part of the site
+.github/
