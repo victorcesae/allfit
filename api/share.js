@@ -66,8 +66,8 @@ export default function handler(req, res) {
         alt = `${first.product.name} na cor ${first.product.color}`;
       } else {
         // all the looks together in one picture (api/bag-image.js)
-        // TODO: all-looks collage (tools/pending/bag-image.js) once its deploy issue is solved
-        image = `${origin}/og/${first.product.id}.jpg`;
+        // all the looks together in one picture (api/bag-image.js)
+        image = `${origin}/api/bag-image?code=${encodeURIComponent(clean)}`;
         alt = `Sacola allFit com ${count} peças: ` + items.map((i) => i.product.name).join(", ");
       }
       target = `/#s=${clean}`;
