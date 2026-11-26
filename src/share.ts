@@ -39,8 +39,14 @@ export function sharedBagFromHash(hash: string): BagItem[] | null {
   return items.length ? items : null;
 }
 
-/** Absolute link to this site with the bag encoded, e.g. https://useallfit.vercel.app/#s=27M2.5G */
+/**
+ * Absolute share link, e.g. https://useallfit.vercel.app/s/27M2.5G
+ * A real path (not "#s=") so WhatsApp/Instagram can read its preview: api/share.js serves
+ * Open Graph tags for it (the look's photo, or all looks together) and forwards people to "/#s=...".
+ * In local dev there is no /s/ route, so the hash form is used.
+ */
 export function bagShareUrl(items: BagItem[]): string {
   const base = `${window.location.origin}${import.meta.env.BASE_URL}`;
-  return `${base}#s=${encodeBag(items)}`;
+  const code = encodeBag(items);
+  return import.meta.env.DEV ? `${base}#s=${code}` : `${base}s/${code}`;
 }

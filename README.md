@@ -24,7 +24,14 @@ Link direto para um produto: `https://seusite/#p12`.
 
 ## Fotos (pipeline)
 
-`looks/` (originais) → `tools/matte.py` (remove só o fundo com BiRefNet; mantém manequim e etiquetas, bordas suaves) → `tools/retouch_orig.py` + `tools/retouch_points.json` (remove os mamilos do manequim) → `tools/frame.py` (enquadra 1080×1350 sem serrilhado) → `tools/sleeve_volume.py` (dá volume às mangas compridas vazias) → `tools/finish.sh` (PhotoCraft: vibrance, curva, smart sharpen leve, sombra, fundo de estúdio) → `tools/export.py` (gera `public/products/*.webp` e `recortes/<tipo>/<cor>/*.png` transparentes).
+`looks/` (originais) → `tools/matte.py` (remove só o fundo com BiRefNet; mantém manequim e etiquetas, bordas suaves) → `tools/retouch_orig.py` + `tools/retouch_points.json` (remove os mamilos do manequim) → `tools/frame.py` (enquadra 1080×1350 sem serrilhado) → `tools/sleeve_volume.py` (dá volume às mangas compridas vazias) → `tools/finish.sh` (PhotoCraft: vibrance, curva, smart sharpen leve, sombra, fundo de estúdio) → `tools/export.py` (gera `public/products/*.webp` e `recortes/<tipo>/<cor>/*.png` transparentes) → `tools/og_cards.py` (cartões de pré-visualização do WhatsApp em `public/og/`).
+
+## Links com pré-visualização
+
+- `/s/<código>`: sacola compartilhada (ex. `/s/27M2.5G`). Uma peça mostra a foto do look; várias peças mostram todos os looks juntos (`api/bag-image.js`).
+- `/p/<id>`: um produto (ex. `/p/p15`).
+
+`api/share.js` gera as tags Open Graph e leva a pessoa para a loja. O WhatsApp guarda a pré-visualização em cache por link.
 
 `tools/segment.py` (recorte só da roupa) é usado para gerar a máscara da peça que o retoque usa.
 
