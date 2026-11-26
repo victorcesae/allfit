@@ -24,7 +24,7 @@ Link direto para um produto: `https://seusite/#p12`.
 
 ## Fotos (pipeline)
 
-`looks/` (originais) → `tools/matte.py` (remove só o fundo com BiRefNet; mantém manequim e etiquetas, bordas suaves) → `tools/retouch_orig.py` + `tools/retouch_points.json` (remove os mamilos do manequim) → `tools/frame.py` (enquadra 1080×1350 sem serrilhado) → `tools/finish.sh` (PhotoCraft: vibrance, curva, smart sharpen leve, sombra, fundo de estúdio) → `tools/export.py` (gera `public/products/*.webp` e `recortes/<tipo>/<cor>/*.png` transparentes).
+`looks/` (originais) → `tools/matte.py` (remove só o fundo com BiRefNet; mantém manequim e etiquetas, bordas suaves) → `tools/retouch_orig.py` + `tools/retouch_points.json` (remove os mamilos do manequim) → `tools/frame.py` (enquadra 1080×1350 sem serrilhado) → `tools/sleeve_volume.py` (dá volume às mangas compridas vazias) → `tools/finish.sh` (PhotoCraft: vibrance, curva, smart sharpen leve, sombra, fundo de estúdio) → `tools/export.py` (gera `public/products/*.webp` e `recortes/<tipo>/<cor>/*.png` transparentes).
 
 `tools/segment.py` (recorte só da roupa) é usado para gerar a máscara da peça que o retoque usa.
 

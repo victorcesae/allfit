@@ -31,3 +31,9 @@ export function whatsappHelloUrl(): string {
   const number = STORE.whatsapp.replace(/\D/g, "");
   return `https://wa.me/${number}?text=${encodeURIComponent("Olá! Vim pelo site da allFit e queria tirar uma dúvida.")}`;
 }
+
+export function whatsappSizeHelpUrl(p: Product): string {
+  const number = STORE.whatsapp.replace(/\D/g, "");
+  const text = `Olá! Vim pelo site da allFit e tenho dúvida no tamanho do ${p.name} (${p.color}, ref. ${p.id.toUpperCase()}).`;
+  return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
+}

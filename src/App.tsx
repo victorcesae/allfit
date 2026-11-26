@@ -138,7 +138,7 @@ export default function App() {
       <header className={`header ${scrolled ? "is-scrolled" : ""}`}>
         <div className="container header-in">
           <a href="#" className="brand" aria-label="allFit, início" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
-            <img src={asset("logo.png")} alt="allFit" width={364} height={124} />
+            <img src={asset("logo.png")} alt="allFit" width={360} height={206} />
           </a>
           <nav className="nav" aria-label="Categorias">
             {TYPES.slice(1).map((t) => (
@@ -166,9 +166,8 @@ export default function App() {
               </button>
             </div>
             <div className="hero-copy">
-              <p className="overline">Moda fitness feminina</p>
               <h1>
-                Sua melhor versão <span className="accent">começa</span> <em>aqui</em>.
+                Sua melhor versão começa <em>aqui</em>.
               </h1>
               <p className="lead">
                 Conforto, estilo e performance para o seu dia. Escolha o look e o tamanho aqui no site, e a gente finaliza o pedido com você pelo WhatsApp.
@@ -301,7 +300,7 @@ export default function App() {
       <footer className="footer">
         <div className="container footer-in">
           <div className="footer-brand">
-            <img src={asset("logo.png")} alt="allFit" className="footer-logo" width={364} height={124} />
+            <img src={asset("logo.png")} alt="allFit" className="footer-logo" width={360} height={206} />
             <p>Conforto, estilo e performance para o seu dia.</p>
           </div>
           <nav className="footer-col" aria-label="Categorias">
@@ -329,7 +328,7 @@ export default function App() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar no WhatsApp"
-        hidden={bagOpen || !!open || !pastHero}
+        hidden={bagOpen || !!open || !pastHero || bag.count > 0}
       >
         <WhatsAppIcon size={28} />
       </a>

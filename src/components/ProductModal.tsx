@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { imageUrl, typeLabel, viewLabel, BOTTOMS, type Product } from "../catalog";
 import { STORE } from "../config";
-import { whatsappUrl } from "../whatsapp";
+import { whatsappUrl, whatsappSizeHelpUrl } from "../whatsapp";
 import { BagIcon, CloseIcon, MinusIcon, PlusIcon, WhatsAppIcon, CheckIcon } from "./Icons";
 import { Turntable } from "./Turntable";
 
@@ -102,12 +102,11 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
         </div>
 
         <div className="details">
-          <p className="eyebrow">
-            {typeLabel[p.type]}
-            {bottom && ` · ${bottom.label.toLowerCase()}`}
-          </p>
           <h2 id="pm-title" className="details-title">{p.name}</h2>
-          <p className="price-note">Consulte o valor pelo WhatsApp</p>
+          <p className="details-meta">
+            {typeLabel[p.type]}
+            {bottom && ` ${bottom.label.toLowerCase()}`} · valor sob consulta no WhatsApp
+          </p>
 
           <div className="field">
             <div className="field-head">
@@ -132,7 +131,7 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
           <div className={`field ${needSize && !size ? "has-error" : ""}`} id="size-picker">
             <div className="field-head">
               <span>Tamanho</span>
-              {needSize && !size ? <strong className="error">Escolha um tamanho</strong> : <strong className={size ? "" : "muted"}>{size ?? "Selecione"}</strong>}
+              <strong className={size ? "" : "muted"}>{size ?? "Selecione"}</strong>
             </div>
             <div className="sizes" role="radiogroup" aria-label="Tamanho">
               {STORE.sizes.map((s) => (
@@ -141,7 +140,11 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
                 </button>
               ))}
             </div>
-            <p className="hint">Em dúvida no tamanho? A gente te ajuda pelo WhatsApp.</p>
+            {needSize && !size && <p className="field-error" role="alert">Escolha um tamanho para continuar.</p>}
+            <p className="hint">
+              Em dúvida no tamanho?{" "}
+              <a href={whatsappSizeHelpUrl(p)} target="_blank" rel="noopener noreferrer">Pergunte no WhatsApp</a>
+            </p>
           </div>
 
           <div className="field">
@@ -163,13 +166,14 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
             >
               <WhatsAppIcon /> Pedir pelo WhatsApp
             </a>
-            <button className={`btn btn-ghost btn-lg ${added ? "is-done" : ""}`} onClick={add}>
-              {added ? <><CheckIcon /> Adicionado à sacola</> : <><BagIcon /> Adicionar à sacola</>}
+            <button className={`btn btn-ghost btn-lg btn-add ${added ? "is-done" : ""}`} onClick={add} aria-label={added ? "Adicionado à sacola" : "Adicionar à sacola"}>
+              {added ? <CheckIcon /> : <BagIcon />}
+              <span className="btn-label">{added ? "Adicionado à sacola" : "Adicionar à sacola"}</span>
             </button>
           </div>
 
           <p className="fine-print">
-            O pedido é finalizado no WhatsApp: a mensagem já vai com a peça, a cor e o tamanho. Ref. {p.id.toUpperCase()}
+            O pedido é finalizado no WhatsApp: a mensagem já vai com a peça, a cor e o tamanho.
           </p>
         </div>
       </div>
