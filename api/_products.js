@@ -9,7 +9,7 @@ export const PRODUCTS = [
  },
  {
   "id": "p01",
-  "name": "Conjunto Regata + Short",
+  "name": "Conjunto Regata + Short com Bolso",
   "type": "conjunto",
   "color": "Marrom",
   "price": 120
@@ -33,7 +33,7 @@ export const PRODUCTS = [
   "name": "Conjunto Cropped Manga Curta + Short",
   "type": "conjunto",
   "color": "Verde militar",
-  "price": 110
+  "price": 120
  },
  {
   "id": "p05",
@@ -163,7 +163,7 @@ export const PRODUCTS = [
  },
  {
   "id": "p23",
-  "name": "Conjunto Top Regata + Short",
+  "name": "Conjunto Top Regata + Short com Bolso",
   "type": "conjunto",
   "color": "Verde militar",
   "price": 120
@@ -177,7 +177,7 @@ export const PRODUCTS = [
  },
  {
   "id": "p25",
-  "name": "Conjunto Top Ombro Único + Short",
+  "name": "Conjunto Top Ombro Único + Short com Bolso",
   "type": "conjunto",
   "color": "Verde militar",
   "price": 120
@@ -191,7 +191,7 @@ export const PRODUCTS = [
  },
  {
   "id": "p27",
-  "name": "Conjunto Top Regata + Short",
+  "name": "Conjunto Top Regata + Short com Bolso",
   "type": "conjunto",
   "color": "Vermelho",
   "price": 120
@@ -205,7 +205,7 @@ export const PRODUCTS = [
  },
  {
   "id": "p29",
-  "name": "Conjunto Top Decote Torcido + Short",
+  "name": "Conjunto Top Decote Torcido + Short com Bolso",
   "type": "conjunto",
   "color": "Azul marinho",
   "price": 120

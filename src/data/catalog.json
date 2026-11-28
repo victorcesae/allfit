@@ -16,7 +16,7 @@
     },
     {
       "id": "p01",
-      "name": "Conjunto Regata + Short",
+      "name": "Conjunto Regata + Short com Bolso",
       "type": "conjunto",
       "bottom": "short",
       "color": "Marrom",
@@ -63,7 +63,7 @@
       "color": "Verde militar",
       "hex": "#0b702d",
       "photoColor": "Verde Sálvia",
-      "price": 110,
+      "price": 120,
       "photos": [
         6
       ]
@@ -303,7 +303,7 @@
     },
     {
       "id": "p23",
-      "name": "Conjunto Top Regata + Short",
+      "name": "Conjunto Top Regata + Short com Bolso",
       "type": "conjunto",
       "bottom": "short",
       "color": "Verde militar",
@@ -331,7 +331,7 @@
     },
     {
       "id": "p25",
-      "name": "Conjunto Top Ombro Único + Short",
+      "name": "Conjunto Top Ombro Único + Short com Bolso",
       "type": "conjunto",
       "bottom": "short",
       "color": "Verde militar",
@@ -357,7 +357,7 @@
     },
     {
       "id": "p27",
-      "name": "Conjunto Top Regata + Short",
+      "name": "Conjunto Top Regata + Short com Bolso",
       "type": "conjunto",
       "bottom": "short",
       "color": "Vermelho",
@@ -383,7 +383,7 @@
     },
     {
       "id": "p29",
-      "name": "Conjunto Top Decote Torcido + Short",
+      "name": "Conjunto Top Decote Torcido + Short com Bolso",
       "type": "conjunto",
       "bottom": "short",
       "color": "Azul marinho",
