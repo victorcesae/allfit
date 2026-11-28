@@ -110,6 +110,6 @@ export default function handler(req, res) {
 </html>`;
 
   res.setHeader("Content-Type", "text/html; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=600, stale-while-revalidate=3600"); // short: prices and colours change
   res.status(200).send(html);
 }
