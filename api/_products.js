@@ -5,287 +5,371 @@ export const PRODUCTS = [
   "name": "Macaquinho Alcinha Costas Abertas",
   "type": "macaquinho",
   "color": "Rosa",
-  "price": 110
+  "price": 110,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p01",
   "name": "Conjunto Regata + Short com Bolso",
   "type": "conjunto",
   "color": "Marrom",
-  "price": 120
+  "price": 120,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p02",
   "name": "Conjunto Top Alcinha + Short",
   "type": "conjunto",
   "color": "Laranja",
-  "price": 110
+  "price": 110,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p03",
   "name": "Macaquinho Frente Única",
   "type": "macaquinho",
   "color": "Rosa",
-  "price": 110
+  "price": 110,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p04",
   "name": "Conjunto Cropped Manga Curta + Short",
   "type": "conjunto",
   "color": "Verde militar",
-  "price": 120
+  "price": 120,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p05",
   "name": "Conjunto Top Nadador + Short",
   "type": "conjunto",
   "color": "Azul",
-  "price": 110
+  "price": 110,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p06",
   "name": "Conjunto Top Costas Vazadas + Flare",
   "type": "conjunto",
   "color": "Laranja",
-  "price": 150
+  "price": 150,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p07",
   "name": "Conjunto Blusa Frente Única + Legging",
   "type": "conjunto",
   "color": "Azul marinho",
-  "price": 150
+  "price": 150,
+  "looks": 2,
+  "looksPartial": true
  },
  {
   "id": "p08",
   "name": "Cropped Manga Curta",
   "type": "cropped",
   "color": "Rosa",
-  "price": 50
+  "price": 50,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p09",
   "name": "Cropped Regata",
   "type": "cropped",
   "color": "Rosa",
-  "price": 60
+  "price": 60,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p10",
   "name": "Cropped Manga Longa",
   "type": "cropped",
   "color": "Rosa",
-  "price": 60
+  "price": 60,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p11",
   "name": "Top Alcinha Tiras Duplas",
   "type": "top",
   "color": "Azul",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p12",
   "name": "Top Alcinha Faixa",
   "type": "top",
   "color": "Azul",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p13",
   "name": "Top Alcinha Bicolor",
   "type": "top",
   "color": "Branco",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p14",
   "name": "Top Ombro Único Vazado",
   "type": "top",
   "color": "Laranja",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p15",
   "name": "Top Ombro Único",
   "type": "top",
   "color": "Azul marinho",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p16",
   "name": "Top Frente Única Tiras",
   "type": "top",
   "color": "Azul",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p17",
   "name": "Top Costas Cruzadas",
   "type": "top",
   "color": "Preto",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p18",
   "name": "Top Ombro Único Vazado",
   "type": "top",
   "color": "Branco",
-  "price": 50
+  "price": 50,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p19",
   "name": "Top Costas Tiras",
   "type": "top",
   "color": "Rosa",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p20",
   "name": "Top Decote Torcido",
   "type": "top",
   "color": "Marsala",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p21",
   "name": "Top Costas Cruzadas Bicolor",
   "type": "top",
   "color": "Azul",
-  "price": 50
+  "price": 50,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p22",
   "name": "Conjunto Alcinha + Legging",
   "type": "conjunto",
   "color": "Branco",
-  "price": 150
+  "price": 150,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p23",
   "name": "Conjunto Top Regata + Short com Bolso",
   "type": "conjunto",
   "color": "Verde militar",
-  "price": 120
+  "price": 120,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p24",
   "name": "Conjunto Top Alcinha + Short",
   "type": "conjunto",
   "color": "Marsala",
-  "price": 110
+  "price": 110,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p25",
   "name": "Conjunto Top Ombro Único + Short com Bolso",
   "type": "conjunto",
   "color": "Verde militar",
-  "price": 120
+  "price": 120,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p26",
   "name": "Conjunto Cropped + Short Saia",
   "type": "conjunto",
   "color": "Vermelho",
-  "price": 120
+  "price": 120,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p27",
   "name": "Conjunto Top Regata + Short com Bolso",
   "type": "conjunto",
   "color": "Vermelho",
-  "price": 120
+  "price": 120,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p28",
   "name": "Macaquinho Ombro Único",
   "type": "macaquinho",
   "color": "Orquídea",
-  "price": 110
+  "price": 110,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p29",
   "name": "Conjunto Top Decote Torcido + Short com Bolso",
   "type": "conjunto",
   "color": "Azul marinho",
-  "price": 120
+  "price": 120,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p30",
   "name": "Conjunto Top Decote Torcido + Legging",
   "type": "conjunto",
   "color": "Rosa",
-  "price": 150
+  "price": 150,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p31",
   "name": "Conjunto Cropped Ombro Único + Legging",
   "type": "conjunto",
   "color": "Verde militar",
-  "price": 150
+  "price": 150,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p32",
   "name": "Macaquinho Alcinha com Amarração",
   "type": "macaquinho",
   "color": "Rosa",
-  "price": 110
+  "price": 110,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p33",
   "name": "Conjunto Cropped Manga Longa + Legging",
   "type": "conjunto",
   "color": "Azul marinho",
-  "price": 150
+  "price": 150,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p34",
   "name": "Conjunto Top + Short com Cordão",
   "type": "conjunto",
   "color": "Cinza",
-  "price": 110
+  "price": 110,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p35",
   "name": "Conjunto Cropped Ombro Único + Short",
   "type": "conjunto",
   "color": "Rosa",
-  "price": 120
+  "price": 120,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p36",
   "name": "Macaquinho Alcinha Costas Abertas",
   "type": "macaquinho",
   "color": "Azul",
-  "price": 110
+  "price": 110,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p37",
   "name": "Conjunto Top Ombro Único + Legging",
   "type": "conjunto",
   "color": "Azul marinho",
-  "price": 150
+  "price": 150,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p38",
   "name": "Macacão Flare",
   "type": "macacao",
   "color": "Azul marinho",
-  "price": 150
+  "price": 150,
+  "looks": 1,
+  "looksPartial": false
  },
  {
   "id": "p39",
   "name": "Macaquinho Ombro Único Recorte",
   "type": "macaquinho",
   "color": "Preto",
-  "price": 110
+  "price": 110,
+  "looks": 2,
+  "looksPartial": false
  },
  {
   "id": "p40",
   "name": "Conjunto Top + Legging",
   "type": "conjunto",
   "color": "Marrom",
-  "price": 150
+  "price": 150,
+  "looks": 2,
+  "looksPartial": false
  }
 ];
 export const COLORS = ["Vermelho","Rosa","Azul","Marrom","Preto","Laranja","Branco","Cinza","Marsala","Verde militar","Azul marinho","Orquídea"];
+export const COLOR_HEX = ["#eb2d2d","#eb2dab","#3222e0","#573303","#000000","#fa7d0f","#ffffff","#6e7375","#85153a","#0b702d","#06175c","#6f30a6"];
+export const COLOR_SLUG = ["vermelho","rosa","azul","marrom","preto","laranja","branco","cinza","marsala","verde-militar","azul-marinho","orquidea"];

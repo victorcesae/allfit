@@ -8,19 +8,24 @@ import { Turntable } from "./Turntable";
 
 interface Props {
   product: Product;
+  /** colour to open in (from a #p04/verde-militar link or a bag item); default: the photographed one */
+  initialColor?: string;
   variants: Product[];
   onClose: () => void;
   onSwitch: (p: Product) => void;
+  /** the chosen colour changed: App writes it into the link */
+  onColor: (p: Product, color: string) => void;
   onAdd: (p: Product, size: string, qty: number, color: string) => void;
 }
 
-export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }: Props) {
+export function ProductModal({ product: p, initialColor, variants, onClose, onSwitch, onColor, onAdd }: Props) {
   const [view, setView] = useState(0);
   const [size, setSize] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
   const [needSize, setNeedSize] = useState(false);
   const [added, setAdded] = useState(false);
-  const [color, setColor] = useState(p.color);
+  const [color, setColorState] = useState(initialColor ?? p.color);
+  const setColor = (c: string) => { setColorState(c); onColor(p, c); };
   const [simUrls, setSimUrls] = useState<string[] | null>(null);
   const [painting, setPainting] = useState(false);
   const dialog = useRef<HTMLDivElement>(null);
@@ -36,8 +41,8 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
     setView(0);
     setNeedSize(false);
     setAdded(false);
-    setColor(p.color);
-  }, [p.id, p.color]);
+    setColorState(initialColor ?? p.color);
+  }, [p.id, p.color, initialColor]);
 
   // colour simulation: repaint the studio looks when the chosen colour isn't the photographed one;
   // the photos on the mannequin always stay the real piece in its real colour

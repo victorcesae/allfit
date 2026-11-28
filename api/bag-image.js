@@ -1,14 +1,15 @@
-// 1200x630 collage for multi-item shared bags (/s/27M2.5G.36GG): the looks side by side,
-// so the WhatsApp/Instagram preview shows the whole bag in one picture.
-// GET /api/bag-image?code=27M2.5G.36GG
+// 1200x630 collage for multi-item shared bags (/s/27M2.5G.36GGc2): the studio looks side by side,
+// each in the colour chosen for it, so the WhatsApp/Instagram preview shows the whole bag.
+// GET /api/bag-image?code=27M2.5G.36GGc2
 // Text is pre-rendered (public/og/label/*.png): no fonts are needed on the server.
 import sharp from "sharp";
-import { PRODUCTS } from "./_products.js";
+import { PRODUCTS, COLORS } from "./_products.js";
+import { byId, lookImage } from "./_recolor.js";
 
 const W = 1200, H = 630, PAD = 40, GAP = 16, TOP = 120;
 const BG = { r: 247, g: 240, b: 237, alpha: 1 };
 const SIZES = ["GG", "XG", "PP", "P", "M", "G"];
-const ITEM = new RegExp(`^(\\d{1,3})(${SIZES.join("|")})(\\d{0,2})(?:C(\\d{1,2}))?$`); // C<n> = palette colour (collage shows the photo)
+const ITEM = new RegExp(`^(\\d{1,3})(${SIZES.join("|")})(\\d{0,2})(?:C(\\d{1,2}))?$`); // C<n> = palette colour
 
 function parseBag(code) {
   const items = [];
@@ -16,7 +17,8 @@ function parseBag(code) {
     const m = ITEM.exec(part.trim().toUpperCase());
     if (!m) continue;
     const id = `p${m[1].padStart(2, "0")}`;
-    if (PRODUCTS.some((p) => p.id === id)) items.push({ id, qty: Math.min(20, Math.max(1, Number(m[3] || 1))) });
+    const ci = m[4] !== undefined && COLORS[Number(m[4])] ? Number(m[4]) : -1;
+    if (PRODUCTS.some((p) => p.id === id)) items.push({ id, qty: Math.min(20, Math.max(1, Number(m[3] || 1))), ci });
   }
   return items;
 }
@@ -53,7 +55,8 @@ export default async function handler(req, res) {
     const [logo, label, ...thumbs] = await Promise.all([
       fetchBuf(`${origin}/logo.png`).then((b) => sharp(b).resize({ height: 72 }).png().toBuffer()),
       count >= 2 ? fetchBuf(`${origin}/og/label/n${Math.min(count, 60)}.png`) : null,
-      ...shown.map((it) => fetchBuf(`${origin}/og/thumb/${it.id}.jpg`)),
+      // the look in the chosen colour (painted here), or the ready-made thumb in the photographed one
+      ...shown.map((it) => (it.ci >= 0 ? lookImage(origin, byId(it.id), it.ci) : fetchBuf(`${origin}/og/thumb/${it.id}.jpg`))),
     ]);
 
     const rounded = (w, h, r) => Buffer.from(`<svg width="${w}" height="${h}"><rect width="${w}" height="${h}" rx="${r}" ry="${r}"/></svg>`);

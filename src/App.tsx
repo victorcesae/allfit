@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { products, TYPES, BOTTOMS, COLORS, type Product, type Bottom } from "./catalog";
+import { products, TYPES, BOTTOMS, COLORS, colorBySlug, productHash, type Product, type Bottom } from "./catalog";
 import { STORE, phoneLabel, asset, instagramUrl, instagramLabel } from "./config";
 import { whatsappHelloUrl, type BagItem } from "./whatsapp";
 import { sharedBagFromHash } from "./share";
@@ -30,13 +30,14 @@ export default function App() {
   const [type, setType] = useState("all");
   const [bottom, setBottom] = useState<Bottom | null>(null);
   const [open, setOpen] = useState<Product | null>(null);
+  const [openColor, setOpenColor] = useState<string | undefined>(undefined);
   const [bagOpen, setBagOpen] = useState(false);
   const [shared, setShared] = useState<BagItem[] | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [pastHero, setPastHero] = useState(false);
 
-  // deep links: #p12 opens that product, #s=27M2.5G opens a shared bag
+  // deep links: #p12 opens that product, #p12/verde-militar in that colour, #s=27M2.5G opens a shared bag
   useEffect(() => {
     const sync = () => {
       const fromLink = sharedBagFromHash(location.hash);
@@ -46,8 +47,10 @@ export default function App() {
         setBagOpen(true);
         return;
       }
-      const id = location.hash.slice(1);
-      setOpen(products.find((p) => p.id === id) ?? null);
+      const [id, slug] = location.hash.slice(1).split("/");
+      const p = products.find((q) => q.id === id) ?? null;
+      setOpen(p);
+      setOpenColor(p && slug ? colorBySlug(slug)?.name : undefined);
     };
     sync();
     window.addEventListener("hashchange", sync);
@@ -64,9 +67,14 @@ export default function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const openProduct = useCallback((p: Product) => {
-    history.replaceState(null, "", `#${p.id}`);
+  const openProduct = useCallback((p: Product, color?: string) => {
+    history.replaceState(null, "", productHash(p, color));
     setOpen(p);
+    setOpenColor(color);
+  }, []);
+  // the colour chosen in the product page goes into the link (copy / share / reload keep it)
+  const productColor = useCallback((p: Product, color: string) => {
+    history.replaceState(null, "", productHash(p, color));
   }, []);
   const closeProduct = useCallback(() => {
     history.replaceState(null, "", location.pathname + location.search);
@@ -114,7 +122,7 @@ export default function App() {
 
   const addToBag = (p: Product, size: string, qty: number, color: string) => {
     bag.add(p, size, qty, color);
-    setToast(`${p.name} (${size}) adicionado à sacola`);
+    setToast(`${p.name} · ${color} (${size}) adicionado à sacola`);
     window.setTimeout(() => setToast(null), 2600);
   };
 
@@ -302,7 +310,7 @@ export default function App() {
       )}
 
       {open && (
-        <ProductModal product={open} variants={byName[open.name]} onClose={closeProduct} onSwitch={openProduct} onAdd={addToBag} />
+        <ProductModal product={open} initialColor={openColor} variants={byName[open.name]} onClose={closeProduct} onSwitch={(p) => openProduct(p)} onColor={productColor} onAdd={addToBag} />
       )}
 
       <BagDrawer
@@ -316,6 +324,7 @@ export default function App() {
         onUseShared={() => { bag.replaceWith(shared ?? []); finishShared("Sacola carregada"); }}
         onMergeShared={() => { bag.mergeIn(shared ?? []); finishShared("Peças adicionadas à sua sacola"); }}
         onClear={bag.clear}
+        onOpenItem={(it) => { closeBag(); openProduct(it.product, it.color); }}
       />
 
       <div className={`toast ${toast && !bagOpen ? "is-on" : ""}`} role="status" aria-live="polite">
