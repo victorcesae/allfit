@@ -152,10 +152,10 @@ export default function App() {
             <div className="hero-media">
               <span className="hero-arch" aria-hidden />
               <button className="hero-look hero-look-1" onClick={() => openProduct(HERO_LOOKS[0])} aria-label={`Ver ${HERO_LOOKS[0].name} ${HERO_LOOKS[0].color}`}>
-                <img src={asset("hero/look-1.webp")} alt="" width={434} height={950} fetchPriority="high" />
+                <img src={asset("hero/look-1.webp")} alt="" width={537} height={950} fetchPriority="high" />
               </button>
               <button className="hero-look hero-look-2" onClick={() => openProduct(HERO_LOOKS[1])} aria-label={`Ver ${HERO_LOOKS[1].name} ${HERO_LOOKS[1].color}`}>
-                <img src={asset("hero/look-2.webp")} alt="" width={409} height={950} />
+                <img src={asset("hero/look-2.webp")} alt="" width={453} height={950} />
               </button>
             </div>
             <div className="hero-copy">

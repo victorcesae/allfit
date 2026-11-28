@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { imageUrl, colorByName } from "../catalog";
+import { coverUrl, views, colorByName } from "../catalog";
 import { recolored } from "../recolor";
 import { whatsappUrl, itemTotal, bagTotal, type BagItem } from "../whatsapp";
 import { STORE, money, cashPrice, isPlus } from "../config";
@@ -34,12 +34,14 @@ function Totals({ items }: { items: BagItem[] }) {
 
 /** Bag photo in the colour the customer chose (colour simulation when it isn't the photo's colour). */
 function BagThumb({ item }: { item: BagItem }) {
-  const [src, setSrc] = useState(imageUrl(item.product, 0));
+  const [src, setSrc] = useState(coverUrl(item.product));
   useEffect(() => {
     const hex = colorByName(item.color)?.hex;
-    if (item.color === item.product.color || !hex) { setSrc(imageUrl(item.product, 0)); return; }
+    if (item.color === item.product.color || !hex) { setSrc(coverUrl(item.product)); return; }
     let alive = true;
-    recolored(item.product, 0, hex, 240).then((u) => alive && setSrc(u)).catch(() => {});
+    const look = views(item.product).find((v) => v.kind === "look");   // mannequin photos are never recoloured
+    if (!look) { setSrc(coverUrl(item.product)); return; }
+    recolored(look, hex, 240).then((u) => alive && setSrc(u)).catch(() => {});
     return () => { alive = false; };
   }, [item.product, item.color]);
   return <img src={src} alt="" width={72} height={90} />;

@@ -1,5 +1,5 @@
 import { money } from "../config";
-import { imageUrl, type Product } from "../catalog";
+import { coverUrl, imageUrl, type Product } from "../catalog";
 
 interface Props {
   product: Product;
@@ -9,12 +9,13 @@ interface Props {
 }
 
 export function ProductCard({ product: p, colors, onOpen, index }: Props) {
-  const hasBack = p.photos.length > 1;
+  // hover: the studio look turns into the real photo on the mannequin (or the back, without a look)
+  const hover = p.looks && !p.looksPartial ? imageUrl(p, 0) : p.photos.length > 1 ? imageUrl(p, 1) : null;
   return (
     <article className="card">
       <button className="card-media" onClick={() => onOpen(p)} aria-label={`Ver ${p.name} ${p.color}`}>
         <img
-          src={imageUrl(p, 0)}
+          src={coverUrl(p)}
           alt={`${p.name} na cor ${p.color}, frente`}
           width={1080}
           height={1350}
@@ -22,9 +23,10 @@ export function ProductCard({ product: p, colors, onOpen, index }: Props) {
           decoding="async"
           className="card-img"
         />
-        {hasBack && (
-          <img src={imageUrl(p, 1)} alt="" aria-hidden width={1080} height={1350} loading="lazy" decoding="async" className="card-img card-img-back" />
+        {hover && (
+          <img src={hover} alt="" aria-hidden width={1080} height={1350} loading="lazy" decoding="async" className="card-img card-img-back" />
         )}
+        {p.looks && !p.looksPartial ? <span className="card-tag" aria-hidden>No manequim</span> : null}
       </button>
       <div className="card-body">
         <h3 className="card-title">

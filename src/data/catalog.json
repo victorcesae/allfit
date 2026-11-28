@@ -1,5 +1,5 @@
 {
-  "_comment": "photos = indexes of the source photos in /looks (sorted by filename): first front, then back/extras. color = store colour (src/data/colors.json) the piece was photographed in; photoColor = the exact shade in the photo. price = base price in R$ (STORE.plusSizes add STORE.plusFee). Run tools/export.py after changing photos and node tools/gen_api_data.mjs after editing.",
+  "_comment": "photos = indexes of the source photos in /looks (sorted by filename): first front, then back/extras. color = store colour (src/data/colors.json) the piece was photographed in; photoColor = the exact shade in the photo. price = base price in R$ (STORE.plusSizes add STORE.plusFee). Run tools/export.py after changing photos and node tools/gen_api_data.mjs after editing. looks = studio looks (invisible mannequin) made by tools/looks_cut.py: 1 = front, 2 = front + back; they come first in the gallery, the mannequin photos after.",
   "products": [
     {
       "id": "p41",
@@ -12,7 +12,8 @@
       "photos": [
         65,
         66
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p01",
@@ -26,7 +27,8 @@
       "photos": [
         3,
         0
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p02",
@@ -40,7 +42,8 @@
       "photos": [
         1,
         2
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p03",
@@ -53,7 +56,8 @@
       "photos": [
         4,
         5
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p04",
@@ -66,7 +70,8 @@
       "price": 120,
       "photos": [
         6
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p05",
@@ -79,7 +84,8 @@
       "price": 110,
       "photos": [
         7
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p06",
@@ -93,7 +99,8 @@
       "photos": [
         11,
         8
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p07",
@@ -107,7 +114,9 @@
       "photos": [
         10,
         9
-      ]
+      ],
+      "looks": 2,
+      "looksPartial": true
     },
     {
       "id": "p08",
@@ -119,7 +128,8 @@
       "price": 50,
       "photos": [
         12
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p09",
@@ -131,7 +141,8 @@
       "price": 60,
       "photos": [
         13
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p10",
@@ -143,7 +154,8 @@
       "price": 60,
       "photos": [
         16
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p11",
@@ -156,7 +168,8 @@
       "photos": [
         15,
         14
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p12",
@@ -169,7 +182,8 @@
       "photos": [
         18,
         19
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p13",
@@ -181,7 +195,8 @@
       "price": 50,
       "photos": [
         17
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p14",
@@ -193,7 +208,8 @@
       "price": 50,
       "photos": [
         20
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p15",
@@ -206,7 +222,8 @@
       "photos": [
         21,
         25
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p16",
@@ -219,7 +236,8 @@
       "photos": [
         22,
         23
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p17",
@@ -232,7 +250,8 @@
       "photos": [
         29,
         24
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p18",
@@ -244,7 +263,8 @@
       "price": 50,
       "photos": [
         26
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p19",
@@ -257,7 +277,8 @@
       "photos": [
         28,
         27
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p20",
@@ -270,7 +291,8 @@
       "photos": [
         33,
         30
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p21",
@@ -283,7 +305,8 @@
       "photos": [
         32,
         31
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p22",
@@ -299,7 +322,8 @@
         59,
         34,
         38
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p23",
@@ -313,7 +337,8 @@
       "photos": [
         36,
         35
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p24",
@@ -327,7 +352,8 @@
       "photos": [
         37,
         43
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p25",
@@ -340,7 +366,8 @@
       "price": 120,
       "photos": [
         39
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p26",
@@ -353,7 +380,8 @@
       "price": 120,
       "photos": [
         40
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p27",
@@ -367,7 +395,8 @@
       "photos": [
         41,
         42
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p28",
@@ -379,7 +408,8 @@
       "price": 110,
       "photos": [
         44
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p29",
@@ -392,7 +422,8 @@
       "price": 120,
       "photos": [
         45
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p30",
@@ -405,7 +436,8 @@
       "price": 150,
       "photos": [
         46
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p31",
@@ -418,7 +450,8 @@
       "price": 150,
       "photos": [
         47
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p32",
@@ -431,7 +464,8 @@
       "photos": [
         48,
         52
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p33",
@@ -444,7 +478,8 @@
       "price": 150,
       "photos": [
         49
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p34",
@@ -458,7 +493,8 @@
       "photos": [
         50,
         51
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p35",
@@ -472,7 +508,8 @@
       "photos": [
         53,
         55
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p36",
@@ -485,7 +522,8 @@
       "photos": [
         58,
         54
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p37",
@@ -498,7 +536,8 @@
       "price": 150,
       "photos": [
         56
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p38",
@@ -510,7 +549,8 @@
       "price": 150,
       "photos": [
         60
-      ]
+      ],
+      "looks": 1
     },
     {
       "id": "p39",
@@ -523,7 +563,8 @@
       "photos": [
         62,
         61
-      ]
+      ],
+      "looks": 2
     },
     {
       "id": "p40",
@@ -537,7 +578,8 @@
       "photos": [
         63,
         64
-      ]
+      ],
+      "looks": 2
     }
   ]
 }

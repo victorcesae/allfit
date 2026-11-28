@@ -15,6 +15,10 @@ export interface Product {
   photoColor?: string;
   hex: string;
   photos: number[];
+  /** studio looks (invisible mannequin): 1 = front, 2 = front + back; public/products/<id>-l<n>.webp */
+  looks?: number;
+  /** the looks show only part of the product (p07: the blouse, not the legging): mannequin photos first */
+  looksPartial?: boolean;
   /** base price in R$ */
   price: number;
 }
@@ -23,6 +27,34 @@ export const products = data.products as Product[];
 
 export const imageUrl = (p: Product, n = 0) => asset(`products/${p.id}-${n}.webp`);
 export const viewLabel = (n: number) => (n === 0 ? "Frente" : n === 1 ? "Costas" : `Detalhe ${n - 1}`);
+
+/** One picture of a product: a studio look or a photo on the mannequin, with its colour mask. */
+export interface View {
+  src: string;
+  mask: string;
+  label: string;
+  kind: "look" | "photo";
+}
+
+/** Every picture of a product: the studio looks first, then the real photos on the mannequin. */
+export function views(p: Product): View[] {
+  const looks = Array.from({ length: p.looks ?? 0 }, (_, n): View => ({
+    src: asset(`products/${p.id}-l${n}.webp`),
+    mask: asset(`masks/${p.id}-l${n}.png`),
+    label: p.looksPartial ? (n === 0 ? "Estúdio" : "Est. costas") : n === 0 ? "Frente" : "Costas",
+    kind: "look",
+  }));
+  const photos = p.photos.map((_, n): View => ({
+    src: imageUrl(p, n),
+    mask: asset(`masks/${p.id}-${n}.png`),
+    label: looks.length && !p.looksPartial ? (n === 0 ? "Manequim" : n === 1 ? "Man. costas" : `Detalhe ${n - 1}`) : viewLabel(n),
+    kind: "photo",
+  }));
+  return p.looksPartial ? [...photos, ...looks] : [...looks, ...photos];
+}
+
+/** The picture that represents the product (cards, bag, share): its studio look when it has one. */
+export const coverUrl = (p: Product) => (p.looks && !p.looksPartial ? asset(`products/${p.id}-l0.webp`) : imageUrl(p, 0));
 
 export const TYPES: { id: string; label: string; match: (p: Product) => boolean }[] = [
   { id: "all", label: "Tudo", match: () => true },
