@@ -32,13 +32,18 @@ for p in cat:
     im.paste(photo, (W - pw - 40, 0))
     d = ImageDraw.Draw(im)
     im.paste(logo, (70, 60), logo)
-    f_name = ImageFont.truetype(FR, 54); f_meta = ImageFont.truetype(DM, 28)
+    f_meta = ImageFont.truetype(DM, 28)
+    for size in (54, 46, 40, 34):                     # largest size that keeps the name on 2 lines
+        f_name = ImageFont.truetype(FR, size)
+        lines = wrap(d, p["name"], f_name, 1200 - pw - 40 - 140)
+        if len(lines) <= 2: break
     y = 210
-    for line in wrap(d, p["name"], f_name, 1200 - pw - 40 - 140)[:3]:
-        d.text((72, y), line, font=f_name, fill=PLUM); y += 66
+    for line in lines[:2]:
+        d.text((72, y), line, font=f_name, fill=PLUM); y += int(size * 1.22)
     y += 14
     d.ellipse([74, y + 6, 96, y + 28], fill=p["hex"], outline=(0, 0, 0))
     d.text((110, y), p["color"], font=f_meta, fill=PLUM); y += 48
+    d.text((74, y), f"R$ {p['price']}", font=ImageFont.truetype(FR, 46), fill=PLUM); y += 64
     d.text((74, y), "Peça pelo WhatsApp", font=f_meta, fill=ROSE)
     d.text((74, H - 70), "useallfit.vercel.app", font=ImageFont.truetype(DM, 24), fill=MUTED)
     im.save(os.path.join(out, f"{p['id']}.jpg"), quality=84, optimize=True, progressive=True)

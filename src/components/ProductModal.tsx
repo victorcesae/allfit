@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { imageUrl, typeLabel, viewLabel, BOTTOMS, COLORS, colorByName, type Product, type StoreColor } from "../catalog";
 import { recolored } from "../recolor";
-import { STORE } from "../config";
+import { STORE, money, unitPrice, cashPrice, isPlus } from "../config";
 import { whatsappUrl, whatsappSizeHelpUrl } from "../whatsapp";
 import { BagIcon, CloseIcon, MinusIcon, PlusIcon, WhatsAppIcon, CheckIcon } from "./Icons";
 import { Turntable } from "./Turntable";
@@ -92,6 +92,7 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
   };
 
   const bottom = BOTTOMS.find((b) => b.id === p.bottom);
+  const unit = unitPrice(p.price, size);
 
   return (
     <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
@@ -135,8 +136,13 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
           <h2 id="pm-title" className="details-title">{p.name}</h2>
           <p className="details-meta">
             {typeLabel[p.type]}
-            {bottom && ` ${bottom.label.toLowerCase()}`} · valor sob consulta no WhatsApp
+            {bottom && ` ${bottom.label.toLowerCase()}`}
           </p>
+          <div className="price-block">
+            <strong className="price">{money(unit)}</strong>
+            <span className="price-cash">{money(cashPrice(unit))} à vista <em>({Math.round(STORE.cashDiscount * 100)}% off)</em></span>
+            {size && isPlus(size) && <span className="price-note">Inclui +{money(STORE.plusFee)} do Plus Size</span>}
+          </div>
 
           <div className="field">
             <div className="field-head">

@@ -1,3 +1,4 @@
+import { money } from "../config";
 import { imageUrl, type Product } from "../catalog";
 
 interface Props {
@@ -29,10 +30,11 @@ export function ProductCard({ product: p, colors, onOpen, index }: Props) {
         <h3 className="card-title">
           <button onClick={() => onOpen(p)}>{p.name}</button>
         </h3>
+        <p className="card-price">{money(p.price)}</p>
         <p className="card-color">
           <span className="dot" style={{ background: p.hex }} />
           {p.color}
-          <span className="muted"> · {colors} cores disponíveis</span>
+          <span className="muted"> · {colors} cores</span>
         </p>
       </div>
     </article>

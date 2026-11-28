@@ -11,9 +11,12 @@ export interface Product {
   type: ProductType;
   bottom?: Bottom;
   color: string;
-  family: string;
+  /** exact shade in the photo (e.g. "Verde Bandeira"); color is the store colour it maps to */
+  photoColor?: string;
   hex: string;
   photos: number[];
+  /** base price in R$ */
+  price: number;
 }
 
 export const products = data.products as Product[];

@@ -8,7 +8,8 @@ import type { BagItem } from "./whatsapp";
  * The colour part is left out when it is the photo's own colour.
  * The bag lives in the link itself, so it works on any static host with no backend.
  */
-const SIZE_RE = [...STORE.sizes].sort((a, b) => b.length - a.length).join("|"); // GG before G
+// longest first (GG/XG before G); "PP" kept so older share links still open
+const SIZE_RE = [...new Set([...STORE.sizes, "PP"])].sort((a, b) => b.length - a.length).join("|");
 const ITEM_RE = new RegExp(`^(\\d{1,3})(${SIZE_RE})(\\d{0,2})(?:C(\\d{1,2}))?$`);
 
 export function encodeBag(items: BagItem[]): string {

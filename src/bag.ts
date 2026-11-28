@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { products, type Product } from "./catalog";
+import { products, COLORS, type Product } from "./catalog";
+import { STORE } from "./config";
 import type { BagItem } from "./whatsapp";
 
 const KEY = "allfit.bag.v1";
@@ -10,7 +11,11 @@ function load(): BagItem[] {
     const raw = JSON.parse(localStorage.getItem(KEY) || "[]") as Stored;
     return raw.flatMap((r) => {
       const product = products.find((p) => p.id === r.id);
-      return product ? [{ product, size: r.size, qty: Math.max(1, Math.min(20, r.qty)), color: r.color || product.color }] : [];
+      if (!product) return [];
+      // colours / sizes the store no longer offers fall back to the product's own colour / are dropped
+      const color = r.color && COLORS.some((c) => c.name === r.color) ? r.color : product.color;
+      if (!STORE.sizes.includes(r.size)) return [];
+      return [{ product, size: r.size, qty: Math.max(1, Math.min(20, r.qty)), color }];
     });
   } catch {
     return [];

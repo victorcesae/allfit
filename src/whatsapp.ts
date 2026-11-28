@@ -1,6 +1,10 @@
-import { STORE } from "./config";
+import { STORE, money, unitPrice, cashPrice, isPlus } from "./config";
 import type { Product } from "./catalog";
 import { bagShareUrl } from "./share";
+
+/** line total for one bag item (Plus Size fee included) */
+export const itemTotal = (i: { product: Product; size: string; qty: number }) => unitPrice(i.product.price, i.size) * i.qty;
+export const bagTotal = (items: { product: Product; size: string; qty: number }[]) => items.reduce((n, i) => n + itemTotal(i), 0);
 
 export interface BagItem {
   product: Product;
@@ -10,20 +14,24 @@ export interface BagItem {
   color: string;
 }
 
-const line = ({ product: p, size, qty, color }: BagItem) =>
-  `• ${qty}x ${p.name} — Cor: ${color} — Tam. ${size} (ref. ${p.id.toUpperCase()})`;
+const line = (i: BagItem) =>
+  `• ${i.qty}x ${i.product.name} — Cor: ${i.color} — Tam. ${i.size}${isPlus(i.size) ? " (Plus Size)" : ""} — ${money(itemTotal(i))} (ref. ${i.product.id.toUpperCase()})`;
 
 export function whatsappUrl(items: BagItem[]): string {
+  const total = bagTotal(items);
   const text = [
     "Olá! Vim pelo site da allFit.",
-    items.length === 1 ? "Tenho interesse nesta peça:" : "Tenho interesse nestas peças:",
+    items.length === 1 ? "Quero esta peça:" : "Quero estas peças:",
     "",
     ...items.map(line),
+    "",
+    `Total: ${money(total)}`,
+    `À vista (${Math.round(STORE.cashDiscount * 100)}% de desconto): ${money(cashPrice(total))}`,
     "",
     "Ver as peças com fotos:",
     bagShareUrl(items),
     "",
-    "Pode me passar o valor e a disponibilidade?",
+    "Pode confirmar a disponibilidade?",
   ].join("\n");
   const number = STORE.whatsapp.replace(/\D/g, "");
   return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;

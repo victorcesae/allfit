@@ -7,10 +7,13 @@
 // straight on to the store (/#s=... or /#p15), which the React app already understands.
 import { PRODUCTS as products, COLORS } from "./_products.js";
 
-const SIZES = ["GG", "PP", "P", "M", "G"]; // longest first so "PP"/"GG" win over "P"/"G"
+const SIZES = ["GG", "XG", "PP", "P", "M", "G"]; // longest first so "PP"/"GG" win over "P"/"G"
 const ITEM = new RegExp(`^(\\d{1,3})(${SIZES.join("|")})(\\d{0,2})(?:C(\\d{1,2}))?$`); // C<n> = palette colour
 const TYPE = { conjunto: "Conjunto", top: "Top", cropped: "Cropped", macaquinho: "Macaquinho", macacao: "Macacão" };
 
+const PLUS = ["GG", "XG"], PLUS_FEE = 15; // keep in sync with src/config.ts
+const brl = (v) => "R$ " + (Number.isInteger(v) ? String(v) : v.toFixed(2).replace(".", ","));
+const lineTotal = (i) => (i.product.price + (PLUS.includes(i.size) ? PLUS_FEE : 0)) * i.qty;
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const byId = (id) => products.find((p) => p.id === id);
 
@@ -43,7 +46,7 @@ export default function handler(req, res) {
     const product = byId(String(p).toLowerCase());
     if (product) {
       title = `${product.name} · ${product.color} | allFit`;
-      description = `${TYPE[product.type] || "Peça"} na cor ${product.color}. Escolha o tamanho e peça pelo WhatsApp.`;
+      description = `${TYPE[product.type] || "Peça"} · ${brl(product.price)}. Escolha a cor e o tamanho e peça pelo WhatsApp.`;
       image = `${origin}/og/${product.id}.jpg`;
       alt = `${product.name} na cor ${product.color}`;
       target = `/#${product.id}`;
@@ -56,10 +59,11 @@ export default function handler(req, res) {
       const count = items.reduce((n, i) => n + i.qty, 0);
       if (items.length === 1) {
         title = `${first.product.name} · ${first.color} | allFit`;
-        description = `${first.qty}x tamanho ${first.size}, cor ${first.color}. Toque para ver e pedir pelo WhatsApp.`;
+        description = `${first.qty}x tamanho ${first.size}, cor ${first.color} · ${brl(lineTotal(first))}. Toque para ver e pedir pelo WhatsApp.`;
       } else {
         title = `Sacola allFit · ${count} peças`;
-        description = items.slice(0, 4).map((i) => `${i.qty}x ${i.product.name} (${i.color}, ${i.size})`).join(" · ") + (items.length > 4 ? " …" : "");
+        const total = items.reduce((n, i) => n + lineTotal(i), 0);
+        description = `Total ${brl(total)} · ` + items.slice(0, 3).map((i) => `${i.qty}x ${i.product.name} (${i.color}, ${i.size})`).join(" · ") + (items.length > 3 ? " …" : "");
       }
       const clean = items.map((i) => `${Number(i.product.id.slice(1))}${i.size}${i.qty > 1 ? i.qty : ""}${i.ci !== undefined ? `c${i.ci}` : ""}`).join(".");
       if (items.length === 1) {

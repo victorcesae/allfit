@@ -12,3 +12,5 @@ estilos-comparacao.jpg
 # locally installed agent skills (impeccable), not part of the site
 .github/
 .vercel
+*.zip
+.venv-ml/

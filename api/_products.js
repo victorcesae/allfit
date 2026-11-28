@@ -4,247 +4,288 @@ export const PRODUCTS = [
   "id": "p41",
   "name": "Macaquinho Alcinha Costas Abertas",
   "type": "macaquinho",
-  "color": "Pink"
+  "color": "Rosa",
+  "price": 110
  },
  {
   "id": "p01",
   "name": "Conjunto Regata + Short",
   "type": "conjunto",
-  "color": "Café"
+  "color": "Marrom",
+  "price": 120
  },
  {
   "id": "p02",
   "name": "Conjunto Top Alcinha + Short",
   "type": "conjunto",
-  "color": "Laranja"
+  "color": "Laranja",
+  "price": 110
  },
  {
   "id": "p03",
   "name": "Macaquinho Frente Única",
   "type": "macaquinho",
-  "color": "Rosê"
+  "color": "Rosa",
+  "price": 110
  },
  {
   "id": "p04",
   "name": "Conjunto Cropped Manga Curta + Short",
   "type": "conjunto",
-  "color": "Verde Sálvia"
+  "color": "Verde militar",
+  "price": 110
  },
  {
   "id": "p05",
   "name": "Conjunto Top Nadador + Short",
   "type": "conjunto",
-  "color": "Turquesa"
+  "color": "Azul",
+  "price": 110
  },
  {
   "id": "p06",
   "name": "Conjunto Top Costas Vazadas + Flare",
   "type": "conjunto",
-  "color": "Terracota"
+  "color": "Laranja",
+  "price": 150
  },
  {
   "id": "p07",
   "name": "Conjunto Blusa Frente Única + Legging",
   "type": "conjunto",
-  "color": "Azul Marinho"
+  "color": "Azul marinho",
+  "price": 150
  },
  {
   "id": "p08",
   "name": "Cropped Manga Curta",
   "type": "cropped",
-  "color": "Pink"
+  "color": "Rosa",
+  "price": 50
  },
  {
   "id": "p09",
   "name": "Cropped Regata",
   "type": "cropped",
-  "color": "Pink"
+  "color": "Rosa",
+  "price": 60
  },
  {
   "id": "p10",
   "name": "Cropped Manga Longa",
   "type": "cropped",
-  "color": "Pink"
+  "color": "Rosa",
+  "price": 60
  },
  {
   "id": "p11",
   "name": "Top Alcinha Tiras Duplas",
   "type": "top",
-  "color": "Azul"
+  "color": "Azul",
+  "price": 50
  },
  {
   "id": "p12",
   "name": "Top Alcinha Faixa",
   "type": "top",
-  "color": "Azul Piscina"
+  "color": "Azul",
+  "price": 50
  },
  {
   "id": "p13",
   "name": "Top Alcinha Bicolor",
   "type": "top",
-  "color": "Off-White & Azul Bebê"
+  "color": "Branco",
+  "price": 50
  },
  {
   "id": "p14",
   "name": "Top Ombro Único Vazado",
   "type": "top",
-  "color": "Coral"
+  "color": "Laranja",
+  "price": 50
  },
  {
   "id": "p15",
   "name": "Top Ombro Único",
   "type": "top",
-  "color": "Azul Marinho"
+  "color": "Azul marinho",
+  "price": 50
  },
  {
   "id": "p16",
   "name": "Top Frente Única Tiras",
   "type": "top",
-  "color": "Azul Royal"
+  "color": "Azul",
+  "price": 50
  },
  {
   "id": "p17",
   "name": "Top Costas Cruzadas",
   "type": "top",
-  "color": "Preto"
+  "color": "Preto",
+  "price": 50
  },
  {
   "id": "p18",
   "name": "Top Ombro Único Vazado",
   "type": "top",
-  "color": "Off-White"
+  "color": "Branco",
+  "price": 50
  },
  {
   "id": "p19",
   "name": "Top Costas Tiras",
   "type": "top",
-  "color": "Pink"
+  "color": "Rosa",
+  "price": 50
  },
  {
   "id": "p20",
   "name": "Top Decote Torcido",
   "type": "top",
-  "color": "Vinho"
+  "color": "Marsala",
+  "price": 50
  },
  {
   "id": "p21",
   "name": "Top Costas Cruzadas Bicolor",
   "type": "top",
-  "color": "Lavanda"
+  "color": "Azul",
+  "price": 50
  },
  {
   "id": "p22",
   "name": "Conjunto Alcinha + Legging",
   "type": "conjunto",
-  "color": "Gelo"
+  "color": "Branco",
+  "price": 150
  },
  {
   "id": "p23",
   "name": "Conjunto Top Regata + Short",
   "type": "conjunto",
-  "color": "Verde Bandeira"
+  "color": "Verde militar",
+  "price": 120
  },
  {
   "id": "p24",
   "name": "Conjunto Top Alcinha + Short",
   "type": "conjunto",
-  "color": "Ameixa"
+  "color": "Marsala",
+  "price": 110
  },
  {
   "id": "p25",
   "name": "Conjunto Top Ombro Único + Short",
   "type": "conjunto",
-  "color": "Verde Bandeira"
+  "color": "Verde militar",
+  "price": 120
  },
  {
   "id": "p26",
   "name": "Conjunto Cropped + Short Saia",
   "type": "conjunto",
-  "color": "Melancia"
+  "color": "Vermelho",
+  "price": 110
  },
  {
   "id": "p27",
   "name": "Conjunto Top Regata + Short",
   "type": "conjunto",
-  "color": "Vermelho"
+  "color": "Vermelho",
+  "price": 120
  },
  {
   "id": "p28",
   "name": "Macaquinho Ombro Único",
   "type": "macaquinho",
-  "color": "Orquídea"
+  "color": "Rosa",
+  "price": 110
  },
  {
   "id": "p29",
   "name": "Conjunto Top Decote Torcido + Short",
   "type": "conjunto",
-  "color": "Azul Marinho"
+  "color": "Azul marinho",
+  "price": 120
  },
  {
   "id": "p30",
   "name": "Conjunto Top Decote Torcido + Legging",
   "type": "conjunto",
-  "color": "Pink"
+  "color": "Rosa",
+  "price": 150
  },
  {
   "id": "p31",
   "name": "Conjunto Cropped Ombro Único + Legging",
   "type": "conjunto",
-  "color": "Verde Petróleo"
+  "color": "Verde militar",
+  "price": 150
  },
  {
   "id": "p32",
   "name": "Macaquinho Alcinha com Amarração",
   "type": "macaquinho",
-  "color": "Rosa Salmão"
+  "color": "Rosa",
+  "price": 110
  },
  {
   "id": "p33",
   "name": "Conjunto Cropped Manga Longa + Legging",
   "type": "conjunto",
-  "color": "Azul Marinho"
+  "color": "Azul marinho",
+  "price": 150
  },
  {
   "id": "p34",
   "name": "Conjunto Top + Short com Cordão",
   "type": "conjunto",
-  "color": "Grafite"
+  "color": "Cinza",
+  "price": 110
  },
  {
   "id": "p35",
   "name": "Conjunto Cropped Ombro Único + Short",
   "type": "conjunto",
-  "color": "Pink"
+  "color": "Rosa",
+  "price": 110
  },
  {
   "id": "p36",
   "name": "Macaquinho Alcinha Costas Abertas",
   "type": "macaquinho",
-  "color": "Azul Royal"
+  "color": "Azul",
+  "price": 110
  },
  {
   "id": "p37",
   "name": "Conjunto Top Ombro Único + Legging",
   "type": "conjunto",
-  "color": "Azul Marinho"
+  "color": "Azul marinho",
+  "price": 150
  },
  {
   "id": "p38",
   "name": "Macacão Flare",
   "type": "macacao",
-  "color": "Azul Marinho"
+  "color": "Azul marinho",
+  "price": 150
  },
  {
   "id": "p39",
   "name": "Macaquinho Ombro Único Recorte",
   "type": "macaquinho",
-  "color": "Preto"
+  "color": "Preto",
+  "price": 110
  },
  {
   "id": "p40",
   "name": "Conjunto Top + Legging",
   "type": "conjunto",
-  "color": "Chocolate"
+  "color": "Marrom",
+  "price": 150
  }
 ];
-export const COLORS = ["Pink","Rosa Salmão","Rosê","Coral","Laranja","Terracota","Melancia","Vermelho","Vinho","Ameixa","Lavanda","Orquídea","Azul","Azul Piscina","Azul Royal","Azul Marinho","Turquesa","Verde Bandeira","Verde Petróleo","Verde Sálvia","Café","Chocolate","Grafite","Preto","Gelo","Off-White"];
+export const COLORS = ["Vermelho","Rosa","Azul","Marrom","Preto","Laranja","Branco","Cinza","Marsala","Verde militar","Azul marinho"];

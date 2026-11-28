@@ -50,7 +50,10 @@ export function recolored(p: Product, view: number, hex: string, maxW = 1080): P
     }
     if (!cnt) return imageUrl(p, view);
     const mean = Math.max(8, sum / cnt);
-    const [tr, tg, tb] = hexToRgb(hex);
+    let [tr, tg, tb] = hexToRgb(hex);
+    // very dark targets (Preto, Azul marinho): lift a little so folds and shading stay visible
+    const tl = 0.299 * tr + 0.587 * tg + 0.114 * tb;
+    if (tl < 38) { const lift = 38 - tl; tr += lift; tg += lift; tb += lift; }
 
     for (let i = 0; i < d.length; i += 4) {
       const a = m[i] / 255;

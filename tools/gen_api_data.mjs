@@ -3,7 +3,7 @@
 // Run after editing the catalog: node tools/gen_api_data.mjs
 import { readFileSync, writeFileSync } from "node:fs";
 const { products } = JSON.parse(readFileSync(new URL("../src/data/catalog.json", import.meta.url), "utf8"));
-const slim = products.map(({ id, name, type, color }) => ({ id, name, type, color }));
+const slim = products.map(({ id, name, type, color, price }) => ({ id, name, type, color, price }));
 const { colors } = JSON.parse(readFileSync(new URL("../src/data/colors.json", import.meta.url), "utf8"));
 writeFileSync(
   new URL("../api/_products.js", import.meta.url),

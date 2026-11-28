@@ -434,3 +434,18 @@ p { text-wrap: pretty; }
 .sim-pill { position: absolute; right: 12px; top: 12px; z-index: 2; padding: 4px 10px; border-radius: var(--r); background: rgb(58 29 43 / 0.82); color: #fff; font-size: 12px; font-weight: 600; }
 .sim-pill.is-busy { background: rgb(58 29 43 / 0.6); }
 @media (max-width: 899.98px) { .sim-pill { top: 12px; right: 64px; } }
+
+/* ---------- prices ---------- */
+.card-price { margin: 0 0 3px; font-size: 15px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.price-block { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 0 0 18px; }
+.price { font-family: var(--serif); font-size: 30px; font-weight: 600; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.price-cash { font-size: 14.5px; color: var(--ink-2); }
+.price-cash em { font-style: normal; color: #2f7a52; font-weight: 600; }
+.price-note { flex-basis: 100%; font-size: 13px; color: var(--ink-3); }
+.bag-price { margin: 2px 0 0 !important; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bag-totals { display: grid; gap: 4px; padding-bottom: 4px; font-variant-numeric: tabular-nums; }
+.bag-totals > div { display: flex; justify-content: space-between; align-items: baseline; }
+.bag-totals strong { font-size: 17px; }
+.bag-totals .cash { font-size: 14px; color: #2f7a52; }
+.bag-totals .cash strong { font-size: 15px; }
+@media (min-width: 640px) { .card-price { font-size: 16px; } }

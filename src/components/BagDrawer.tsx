@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { imageUrl, colorByName } from "../catalog";
 import { recolored } from "../recolor";
-import { whatsappUrl, type BagItem } from "../whatsapp";
+import { whatsappUrl, itemTotal, bagTotal, type BagItem } from "../whatsapp";
+import { STORE, money, cashPrice, isPlus } from "../config";
 import { bagShareUrl } from "../share";
 import { BagIcon, CheckIcon, CloseIcon, LinkIcon, MinusIcon, PlusIcon, TrashIcon, WhatsAppIcon } from "./Icons";
 
@@ -20,6 +21,16 @@ interface Props {
 }
 
 const sum = (items: BagItem[]) => items.reduce((n, i) => n + i.qty, 0);
+
+function Totals({ items }: { items: BagItem[] }) {
+  const total = bagTotal(items);
+  return (
+    <div className="bag-totals">
+      <div><span>Total</span><strong>{money(total)}</strong></div>
+      <div className="cash"><span>À vista ({Math.round(STORE.cashDiscount * 100)}% off)</span><strong>{money(cashPrice(total))}</strong></div>
+    </div>
+  );
+}
 
 /** Bag photo in the colour the customer chose (colour simulation when it isn't the photo's colour). */
 function BagThumb({ item }: { item: BagItem }) {
@@ -79,6 +90,7 @@ export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrow
           <BagThumb item={it} />
           <div className="bag-info">
             <p className="bag-name">{it.product.name}</p>
+            <p className="bag-price">{money(itemTotal(it))}{isPlus(it.size) && <span className="muted"> · Plus Size</span>}</p>
             <p className="muted">
               <span className="dot" style={{ background: colorByName(it.color)?.hex ?? it.product.hex }} /> {it.color} · Tam. {it.size}
             </p>
@@ -118,6 +130,7 @@ export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrow
             <p className="shared-note">Alguém montou esta sacola e te enviou o link. Você pode usar, juntar com a sua ou pedir direto.</p>
             {rows(false)}
             <footer className="drawer-foot">
+              <Totals items={shared} />
               <a className="btn btn-primary btn-lg btn-block" href={whatsappUrl(shared)} target="_blank" rel="noopener noreferrer" tabIndex={tab}>
                 <WhatsAppIcon /> Pedir estas peças pelo WhatsApp
               </a>
@@ -153,8 +166,9 @@ export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrow
             </div>
             {rows(true)}
             <footer className="drawer-foot">
+              <Totals items={items} />
               <p className="muted small">
-                O WhatsApp abre com a lista pronta e um link da sacola com as fotos. A loja confirma valores, disponibilidade e entrega.
+                O WhatsApp abre com a lista pronta, os valores e um link da sacola com as fotos. A loja confirma a disponibilidade e a entrega.
               </p>
               <a className="btn btn-primary btn-lg btn-block" href={whatsappUrl(items)} target="_blank" rel="noopener noreferrer" tabIndex={tab}>
                 <WhatsAppIcon /> Enviar pedido pelo WhatsApp
