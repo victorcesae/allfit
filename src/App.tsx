@@ -15,7 +15,7 @@ const byName = products.reduce<Record<string, Product[]>>((acc, p) => {
 }, {});
 
 // hero looks (transparent cut-outs in /public/hero) -> the products they open
-const HERO_LOOKS = ["p35", "p28"].map((id) => products.find((p) => p.id === id)!);
+const HERO_LOOKS = ["p35", "p41"].map((id) => products.find((p) => p.id === id)!);
 
 // the brand's own words (from the allFit Instagram campaign)
 const BENEFITS = [
@@ -132,7 +132,7 @@ export default function App() {
       <div className="announce">
         <span className="show-md">Looks que motivam</span>
         <span className="show-md">Qualidade que você sente</span>
-        <span>Preço que cabe no seu bolso</span>
+        <span>5% de desconto no pagamento à vista</span>
       </div>
 
       <header className={`header ${scrolled ? "is-scrolled" : ""}`}>
@@ -159,10 +159,10 @@ export default function App() {
             <div className="hero-media">
               <span className="hero-arch" aria-hidden />
               <button className="hero-look hero-look-1" onClick={() => openProduct(HERO_LOOKS[0])} aria-label={`Ver ${HERO_LOOKS[0].name} ${HERO_LOOKS[0].color}`}>
-                <img src={asset("hero/look-1.webp")} alt="" width={525} height={1100} fetchPriority="high" />
+                <img src={asset("hero/look-1.webp")} alt="" width={434} height={950} fetchPriority="high" />
               </button>
               <button className="hero-look hero-look-2" onClick={() => openProduct(HERO_LOOKS[1])} aria-label={`Ver ${HERO_LOOKS[1].name} ${HERO_LOOKS[1].color}`}>
-                <img src={asset("hero/look-2.webp")} alt="" width={431} height={1100} />
+                <img src={asset("hero/look-2.webp")} alt="" width={409} height={950} />
               </button>
             </div>
             <div className="hero-copy">
