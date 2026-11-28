@@ -187,7 +187,7 @@ export const PRODUCTS = [
   "name": "Conjunto Cropped + Short Saia",
   "type": "conjunto",
   "color": "Vermelho",
-  "price": 110
+  "price": 120
  },
  {
   "id": "p27",
@@ -250,7 +250,7 @@ export const PRODUCTS = [
   "name": "Conjunto Cropped Ombro Único + Short",
   "type": "conjunto",
   "color": "Rosa",
-  "price": 110
+  "price": 120
  },
  {
   "id": "p36",
