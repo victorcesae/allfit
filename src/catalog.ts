@@ -96,3 +96,9 @@ export const typeLabel: Record<ProductType, string> = {
 export interface StoreColor { name: string; hex: string }
 export const COLORS = palette.colors as StoreColor[];
 export const colorByName = (name: string) => COLORS.find((c) => c.name === name);
+/** Colour in a URL: "Verde Militar" <-> "verde-militar" (product links: #p04/verde-militar). */
+export const colorSlug = (name: string) =>
+  name.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+export const colorBySlug = (slug: string) => COLORS.find((c) => colorSlug(c.name) === slug.toLowerCase());
+/** Product link fragment, with the colour when it isn't the one photographed. */
+export const productHash = (p: Product, color = p.color) => (color === p.color ? `#${p.id}` : `#${p.id}/${colorSlug(color)}`);

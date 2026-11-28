@@ -366,6 +366,8 @@ a { color: inherit; text-decoration: none; }
 .bag-info { flex: 1; min-width: 0; }
 .bag-info p { margin: 0; }
 .bag-name { font-weight: 500; font-size: 14.5px; line-height: 1.3; }
+.bag-name-link { text-align: left; font: inherit; color: inherit; }
+@media (hover: hover) { .bag-name-link:hover { text-decoration: underline; text-underline-offset: 3px; } }
 .bag-info .muted { margin: 4px 0 8px; font-size: 13px; }
 .bag-row { display: flex; justify-content: space-between; align-items: center; }
 .bag-row .link-btn { font-weight: 500; color: var(--ink-3); }

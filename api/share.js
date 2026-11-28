@@ -1,11 +1,19 @@
 // Link previews for shared bags and products.
 // The part after "#" never reaches a server, so WhatsApp/Instagram crawlers can't see
 // "#s=15PP". Share links therefore use real paths, rewritten here by vercel.json:
-//   /s/15PP.27M2  -> shared bag   (preview: the look's photo when it is a single item)
-//   /p/p15        -> one product
+//   /s/15PP.27M2c2  -> shared bag   (preview: the look in its chosen colour, or all looks together)
+//   /p/p15          -> one product
+//   /p/p15/azul     -> one product in a palette colour (preview painted in that colour)
 // The HTML carries Open Graph tags for crawlers (they don't run JS); people are sent
-// straight on to the store (/#s=... or /#p15), which the React app already understands.
-import { PRODUCTS as products, COLORS } from "./_products.js";
+// straight on to the store (/#s=..., /#p15 or /#p15/azul), which the React app already understands.
+import { PRODUCTS as products, COLORS, COLOR_SLUG } from "./_products.js";
+import { colorIndex } from "./_recolor.js";
+
+/** preview image of one product in palette colour ci (-1 / photographed colour: the static card) */
+const productImage = (origin, product, ci) =>
+  ci >= 0 && COLORS[ci] !== product.color
+    ? `${origin}/api/og-image?p=${product.id}&c=${COLOR_SLUG[ci]}`
+    : `${origin}/og/${product.id}.jpg`;
 
 const SIZES = ["GG", "XG", "PP", "P", "M", "G"]; // longest first so "PP"/"GG" win over "P"/"G"
 const ITEM = new RegExp(`^(\\d{1,3})(${SIZES.join("|")})(\\d{0,2})(?:C(\\d{1,2}))?$`); // C<n> = palette colour
@@ -32,7 +40,7 @@ function parseBag(code) {
 export default function handler(req, res) {
   const host = req.headers["x-forwarded-host"] || req.headers.host || "useallfit.vercel.app";
   const origin = `https://${host}`;
-  const { code, p } = req.query || {};
+  const { code, p, c } = req.query || {};
 
   let title = "allFit · Moda fitness feminina";
   let description = "Conforto, estilo e performance para o seu dia. Escolha o look e peça pelo WhatsApp.";
@@ -45,12 +53,15 @@ export default function handler(req, res) {
   if (p) {
     const product = byId(String(p).toLowerCase());
     if (product) {
-      title = `${product.name} · ${product.color} | allFit`;
+      const ci = colorIndex(c);
+      const color = ci >= 0 ? COLORS[ci] : product.color;
+      const own = color === product.color;
+      title = `${product.name} · ${color} | allFit`;
       description = `${TYPE[product.type] || "Peça"} · ${brl(product.price)}. Escolha a cor e o tamanho e peça pelo WhatsApp.`;
-      image = `${origin}/og/${product.id}.jpg`;
-      alt = `${product.name} na cor ${product.color}`;
-      target = `/#${product.id}`;
-      self = `${origin}/p/${product.id}`;
+      image = productImage(origin, product, ci);
+      alt = `${product.name} na cor ${color}`;
+      target = own ? `/#${product.id}` : `/#${product.id}/${COLOR_SLUG[ci]}`;
+      self = own ? `${origin}/p/${product.id}` : `${origin}/p/${product.id}/${COLOR_SLUG[ci]}`;
     }
   } else if (code) {
     const items = parseBag(code);
@@ -67,11 +78,10 @@ export default function handler(req, res) {
       }
       const clean = items.map((i) => `${Number(i.product.id.slice(1))}${i.size}${i.qty > 1 ? i.qty : ""}${i.ci !== undefined ? `c${i.ci}` : ""}`).join(".");
       if (items.length === 1) {
-        image = `${origin}/og/${first.product.id}.jpg`;
-        alt = `${first.product.name} na cor ${first.product.color}`;
+        image = productImage(origin, first.product, first.ci !== undefined ? Number(first.ci) : -1);
+        alt = `${first.product.name} na cor ${first.color}`;
       } else {
-        // all the looks together in one picture (api/bag-image.js)
-        // all the looks together in one picture (api/bag-image.js)
+        // all the looks together in one picture, each in its chosen colour (api/bag-image.js)
         image = `${origin}/api/bag-image?code=${encodeURIComponent(clean)}`;
         alt = `Sacola allFit com ${count} peças: ` + items.map((i) => i.product.name).join(", ");
       }

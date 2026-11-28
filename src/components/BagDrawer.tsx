@@ -18,6 +18,8 @@ interface Props {
   onUseShared: () => void;
   onMergeShared: () => void;
   onClear: () => void;
+  /** open a bag piece in its product page, in the colour that was saved with it */
+  onOpenItem: (item: BagItem) => void;
 }
 
 const sum = (items: BagItem[]) => items.reduce((n, i) => n + i.qty, 0);
@@ -47,7 +49,7 @@ function BagThumb({ item }: { item: BagItem }) {
   return <img src={src} alt="" width={72} height={90} />;
 }
 
-export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrowse, onUseShared, onMergeShared, onClear }: Props) {
+export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrowse, onUseShared, onMergeShared, onClear, onOpenItem }: Props) {
   const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
   const [confirmClear, setConfirmClear] = useState(false);
 
@@ -91,7 +93,9 @@ export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrow
         <li key={`${it.product.id}-${it.size}-${it.color}`} className="bag-item">
           <BagThumb item={it} />
           <div className="bag-info">
-            <p className="bag-name">{it.product.name}</p>
+            <p className="bag-name">
+              <button className="bag-name-link" onClick={() => onOpenItem(it)} tabIndex={tab}>{it.product.name}</button>
+            </p>
             <p className="bag-price">{money(itemTotal(it))}{isPlus(it.size) && <span className="muted"> · Plus Size</span>}</p>
             <p className="muted">
               <span className="dot" style={{ background: colorByName(it.color)?.hex ?? it.product.hex }} /> {it.color} · Tam. {it.size}
