@@ -200,7 +200,7 @@ export const PRODUCTS = [
   "id": "p28",
   "name": "Macaquinho Ombro Único",
   "type": "macaquinho",
-  "color": "Rosa",
+  "color": "Orquídea",
   "price": 110
  },
  {
@@ -288,4 +288,4 @@ export const PRODUCTS = [
   "price": 150
  }
 ];
-export const COLORS = ["Vermelho","Rosa","Azul","Marrom","Preto","Laranja","Branco","Cinza","Marsala","Verde militar","Azul marinho"];
+export const COLORS = ["Vermelho","Rosa","Azul","Marrom","Preto","Laranja","Branco","Cinza","Marsala","Verde militar","Azul marinho","Orquídea"];
