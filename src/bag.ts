@@ -3,14 +3,14 @@ import { products, type Product } from "./catalog";
 import type { BagItem } from "./whatsapp";
 
 const KEY = "allfit.bag.v1";
-type Stored = { id: string; size: string; qty: number }[];
+type Stored = { id: string; size: string; qty: number; color?: string }[];
 
 function load(): BagItem[] {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) || "[]") as Stored;
     return raw.flatMap((r) => {
       const product = products.find((p) => p.id === r.id);
-      return product ? [{ product, size: r.size, qty: Math.max(1, Math.min(20, r.qty)) }] : [];
+      return product ? [{ product, size: r.size, qty: Math.max(1, Math.min(20, r.qty)), color: r.color || product.color }] : [];
     });
   } catch {
     return [];
@@ -21,15 +21,15 @@ export function useBag() {
   const [items, setItems] = useState<BagItem[]>(load);
 
   useEffect(() => {
-    const data: Stored = items.map((i) => ({ id: i.product.id, size: i.size, qty: i.qty }));
+    const data: Stored = items.map((i) => ({ id: i.product.id, size: i.size, qty: i.qty, color: i.color }));
     localStorage.setItem(KEY, JSON.stringify(data));
   }, [items]);
 
-  const add = useCallback((product: Product, size: string, qty = 1) => {
+  const add = useCallback((product: Product, size: string, qty = 1, color = product.color) => {
     setItems((cur) => {
-      const hit = cur.find((i) => i.product.id === product.id && i.size === size);
+      const hit = cur.find((i) => i.product.id === product.id && i.size === size && i.color === color);
       if (hit) return cur.map((i) => (i === hit ? { ...i, qty: Math.min(20, i.qty + qty) } : i));
-      return [...cur, { product, size, qty }];
+      return [...cur, { product, size, qty, color }];
     });
   }, []);
 
@@ -45,7 +45,7 @@ export function useBag() {
     setItems((cur) => {
       const out = cur.map((i) => ({ ...i }));
       for (const m of more) {
-        const hit = out.find((i) => i.product.id === m.product.id && i.size === m.size);
+        const hit = out.find((i) => i.product.id === m.product.id && i.size === m.size && i.color === m.color);
         if (hit) hit.qty = Math.min(20, hit.qty + m.qty);
         else out.push({ ...m });
       }

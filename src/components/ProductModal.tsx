@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { imageUrl, typeLabel, viewLabel, BOTTOMS, type Product } from "../catalog";
+import { imageUrl, typeLabel, viewLabel, BOTTOMS, COLORS, colorByName, type Product, type StoreColor } from "../catalog";
+import { recolored } from "../recolor";
 import { STORE } from "../config";
 import { whatsappUrl, whatsappSizeHelpUrl } from "../whatsapp";
 import { BagIcon, CloseIcon, MinusIcon, PlusIcon, WhatsAppIcon, CheckIcon } from "./Icons";
@@ -10,7 +11,7 @@ interface Props {
   variants: Product[];
   onClose: () => void;
   onSwitch: (p: Product) => void;
-  onAdd: (p: Product, size: string, qty: number) => void;
+  onAdd: (p: Product, size: string, qty: number, color: string) => void;
 }
 
 export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }: Props) {
@@ -19,13 +20,41 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
   const [qty, setQty] = useState(1);
   const [needSize, setNeedSize] = useState(false);
   const [added, setAdded] = useState(false);
+  const [color, setColor] = useState(p.color);
+  const [simUrls, setSimUrls] = useState<string[] | null>(null);
+  const [painting, setPainting] = useState(false);
   const dialog = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setView(0);
     setNeedSize(false);
     setAdded(false);
-  }, [p.id]);
+    setColor(p.color);
+  }, [p.id, p.color]);
+
+  // colour simulation: repaint the photos when the chosen colour isn't the photographed one
+  const simulated = color !== p.color;
+  useEffect(() => {
+    if (!simulated) { setSimUrls(null); setPainting(false); return; }
+    const hex = colorByName(color)?.hex;
+    if (!hex) return;
+    let alive = true;
+    setPainting(true);
+    Promise.all(p.photos.map((_, n) => recolored(p, n, hex)))
+      .then((urls) => { if (alive) setSimUrls(urls); })
+      .catch(() => { if (alive) setSimUrls(null); })
+      .finally(() => { if (alive) setPainting(false); });
+    return () => { alive = false; };
+  }, [p, color, simulated]);
+
+  const photo = (n: number) => (simulated && simUrls?.[n]) || imageUrl(p, n);
+
+  const pickColor = (c: StoreColor) => {
+    if (c.name === p.color) return setColor(c.name);
+    const real = variants.find((v) => v.color === c.name);   // this model photographed in that colour
+    if (real) return onSwitch(real);
+    setColor(c.name);
+  };
 
   useEffect(() => {
     const prev = document.activeElement as HTMLElement | null;
@@ -53,7 +82,7 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
 
   const add = () => {
     if (!requireSize()) return;
-    onAdd(p, size!, qty);
+    onAdd(p, size!, qty, color);
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1800);
   };
@@ -76,24 +105,25 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
             {view < 2 ? (
               <Turntable
                 key={p.id}
-                front={imageUrl(p, 0)}
-                back={p.photos.length > 1 ? imageUrl(p, 1) : undefined}
-                alt={`${p.name} ${p.color}`}
+                front={photo(0)}
+                back={p.photos.length > 1 ? photo(1) : undefined}
+                alt={`${p.name} ${color}`}
                 side={view}
                 onSide={setView}
               />
             ) : (
               <div className="turntable">
-                <img className="tt-face" src={imageUrl(p, view)} alt={`${p.name} ${p.color} — ${viewLabel(view)}`} width={1080} height={1350} />
+                <img className="tt-face" src={photo(view)} alt={`${p.name} ${color} — ${viewLabel(view)}`} width={1080} height={1350} />
               </div>
             )}
             {p.photos.length > 1 && <span className="view-pill">{viewLabel(view)}</span>}
+            {simulated && <span className={`sim-pill ${painting ? "is-busy" : ""}`}>{painting ? "Aplicando a cor…" : "Simulação de cor"}</span>}
           </div>
           {p.photos.length > 1 && (
             <div className="thumbs" role="tablist" aria-label="Fotos do produto">
               {p.photos.map((_, n) => (
                 <button key={n} role="tab" aria-selected={n === view} className={`thumb ${n === view ? "is-active" : ""}`} onClick={() => setView(n)}>
-                  <img src={imageUrl(p, n)} alt="" width={86} height={108} />
+                  <img src={photo(n)} alt="" width={86} height={108} />
                   <span>{viewLabel(n)}</span>
                 </button>
               ))}
@@ -111,21 +141,30 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
           <div className="field">
             <div className="field-head">
               <span>Cor</span>
-              <strong>{p.color}</strong>
+              <strong>{color}{simulated && <span className="muted"> · simulação</span>}</strong>
             </div>
-            <div className="swatches">
-              {variants.map((v) => (
-                <button
-                  key={v.id}
-                  className={`swatch ${v.id === p.id ? "is-active" : ""}`}
-                  style={{ ["--sw" as string]: v.hex }}
-                  onClick={() => onSwitch(v)}
-                  aria-label={v.color}
-                  title={v.color}
-                  aria-pressed={v.id === p.id}
-                />
-              ))}
+            <div className="swatches" role="radiogroup" aria-label="Cor">
+              {COLORS.map((c) => {
+                const real = c.name === p.color || variants.some((v) => v.color === c.name);
+                return (
+                  <button
+                    key={c.name}
+                    role="radio"
+                    aria-checked={color === c.name}
+                    className={`swatch ${color === c.name ? "is-active" : ""} ${real ? "has-photo" : ""}`}
+                    style={{ ["--sw" as string]: c.hex }}
+                    onClick={() => pickColor(c)}
+                    aria-label={real ? `${c.name} (foto real)` : c.name}
+                    title={real ? `${c.name} · foto real` : c.name}
+                  />
+                );
+              })}
             </div>
+            <p className="hint">
+              {simulated
+                ? "Simulação da cor na peça: o tom real pode variar um pouco. A loja confirma pelo WhatsApp."
+                : "Escolha qualquer cor da nossa cartela. As marcadas com ponto têm foto real."}
+            </p>
           </div>
 
           <div className={`field ${needSize && !size ? "has-error" : ""}`} id="size-picker">
@@ -159,7 +198,7 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
           <div className="actions">
             <a
               className="btn btn-primary btn-lg"
-              href={size ? whatsappUrl([{ product: p, size, qty }]) : "#"}
+              href={size ? whatsappUrl([{ product: p, size, qty, color }]) : "#"}
               target="_blank"
               rel="noopener noreferrer"
               onClick={orderNow}

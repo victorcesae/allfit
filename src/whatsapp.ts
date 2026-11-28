@@ -6,10 +6,12 @@ export interface BagItem {
   product: Product;
   size: string;
   qty: number;
+  /** colour the customer chose from the store palette (defaults to the photo's colour) */
+  color: string;
 }
 
-const line = ({ product: p, size, qty }: BagItem) =>
-  `• ${qty}x ${p.name} — ${p.color} — Tam. ${size} (ref. ${p.id.toUpperCase()})`;
+const line = ({ product: p, size, qty, color }: BagItem) =>
+  `• ${qty}x ${p.name} — Cor: ${color} — Tam. ${size} (ref. ${p.id.toUpperCase()})`;
 
 export function whatsappUrl(items: BagItem[]): string {
   const text = [

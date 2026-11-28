@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { products, TYPES, BOTTOMS, FAMILIES, type Product, type Bottom } from "./catalog";
+import { products, TYPES, BOTTOMS, COLORS, type Product, type Bottom } from "./catalog";
 import { STORE, phoneLabel, asset, instagramUrl, instagramLabel } from "./config";
 import { whatsappHelloUrl, type BagItem } from "./whatsapp";
 import { sharedBagFromHash } from "./share";
@@ -29,7 +29,6 @@ export default function App() {
   const bag = useBag();
   const [type, setType] = useState("all");
   const [bottom, setBottom] = useState<Bottom | null>(null);
-  const [families, setFamilies] = useState<string[]>([]);
   const [open, setOpen] = useState<Product | null>(null);
   const [bagOpen, setBagOpen] = useState(false);
   const [shared, setShared] = useState<BagItem[] | null>(null);
@@ -79,24 +78,18 @@ export default function App() {
   const visible = useMemo(
     () =>
       inType.filter(
-        (p) => (!bottom || p.bottom === bottom) && (families.length === 0 || families.includes(p.family)),
+        (p) => !bottom || p.bottom === bottom,
       ),
-    [inType, bottom, families],
+    [inType, bottom],
   );
-  const familyCounts = useMemo(() => {
-    const base = inType.filter((p) => !bottom || p.bottom === bottom);
-    return Object.fromEntries(FAMILIES.map((f) => [f.id, base.filter((p) => p.family === f.id).length]));
-  }, [inType, bottom]);
 
   const pickType = (id: string) => {
     setType(id);
     setBottom(null);
   };
-  const toggleFamily = (id: string) => setFamilies((cur) => (cur.includes(id) ? cur.filter((f) => f !== id) : [...cur, id]));
   const clearFilters = () => {
     setType("all");
     setBottom(null);
-    setFamilies([]);
   };
   const goShop = (t?: string) => {
     if (t) pickType(t);
@@ -119,13 +112,13 @@ export default function App() {
     window.setTimeout(() => setToast(null), 2600);
   };
 
-  const addToBag = (p: Product, size: string, qty: number) => {
-    bag.add(p, size, qty);
+  const addToBag = (p: Product, size: string, qty: number, color: string) => {
+    bag.add(p, size, qty, color);
     setToast(`${p.name} (${size}) adicionado à sacola`);
     window.setTimeout(() => setToast(null), 2600);
   };
 
-  const hasFilters = type !== "all" || bottom || families.length > 0;
+  const hasFilters = type !== "all" || !!bottom;
 
   return (
     <>
@@ -228,44 +221,12 @@ export default function App() {
                 </div>
               )}
 
-              <div className="colors" aria-label="Filtrar por cor">
-                <span className="colors-label">Cor</span>
-                <div className="color-list">
-                  {FAMILIES.filter((f) => familyCounts[f.id] > 0 || families.includes(f.id)).map((f) => {
-                    const n = familyCounts[f.id];
-                    const active = families.includes(f.id);
-                    const light = f.id === "neutro";
-                    return (
-                      <button
-                        key={f.id}
-                        className={`color-chip ${active ? "is-active" : ""}`}
-                        style={{ ["--c" as string]: light ? "#b9b3ab" : f.swatch }}
-                        onClick={() => toggleFamily(f.id)}
-                        disabled={n === 0 && !active}
-                        aria-pressed={active}
-                        title={`${f.label} (${n})`}
-                      >
-                        <span className={`color-dot ${light ? "is-light" : ""}`} style={{ background: f.swatch }}>
-                          {active && <CheckIcon size={14} />}
-                        </span>
-                        <span className="color-name">{f.label}</span>
-                        {n > 0 && <span className="color-n">{n}</span>}
-                      </button>
-                    );
-                  })}
-                  {families.length > 0 && (
-                    <button className="color-clear" onClick={() => setFamilies([])}>
-                      Limpar
-                    </button>
-                  )}
-                </div>
-              </div>
             </div>
 
             {visible.length ? (
               <div className="grid">
                 {visible.map((p, i) => (
-                  <ProductCard key={p.id} product={p} variants={byName[p.name].length} onOpen={openProduct} index={i} />
+                  <ProductCard key={p.id} product={p} colors={COLORS.length} onOpen={openProduct} index={i} />
                 ))}
               </div>
             ) : (

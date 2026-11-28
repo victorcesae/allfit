@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { imageUrl } from "../catalog";
+import { imageUrl, colorByName } from "../catalog";
+import { recolored } from "../recolor";
 import { whatsappUrl, type BagItem } from "../whatsapp";
 import { bagShareUrl } from "../share";
 import { BagIcon, CheckIcon, CloseIcon, LinkIcon, MinusIcon, PlusIcon, TrashIcon, WhatsAppIcon } from "./Icons";
@@ -19,6 +20,19 @@ interface Props {
 }
 
 const sum = (items: BagItem[]) => items.reduce((n, i) => n + i.qty, 0);
+
+/** Bag photo in the colour the customer chose (colour simulation when it isn't the photo's colour). */
+function BagThumb({ item }: { item: BagItem }) {
+  const [src, setSrc] = useState(imageUrl(item.product, 0));
+  useEffect(() => {
+    const hex = colorByName(item.color)?.hex;
+    if (item.color === item.product.color || !hex) { setSrc(imageUrl(item.product, 0)); return; }
+    let alive = true;
+    recolored(item.product, 0, hex, 240).then((u) => alive && setSrc(u)).catch(() => {});
+    return () => { alive = false; };
+  }, [item.product, item.color]);
+  return <img src={src} alt="" width={72} height={90} />;
+}
 
 export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrowse, onUseShared, onMergeShared, onClear }: Props) {
   const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
@@ -61,12 +75,12 @@ export function BagDrawer({ open, items, shared, onClose, setQty, remove, onBrow
   const rows = (editable: boolean) => (
     <ul className="bag-list">
       {list.map((it, i) => (
-        <li key={`${it.product.id}-${it.size}`} className="bag-item">
-          <img src={imageUrl(it.product, 0)} alt="" width={72} height={90} />
+        <li key={`${it.product.id}-${it.size}-${it.color}`} className="bag-item">
+          <BagThumb item={it} />
           <div className="bag-info">
             <p className="bag-name">{it.product.name}</p>
             <p className="muted">
-              <span className="dot" style={{ background: it.product.hex }} /> {it.product.color} · Tam. {it.size}
+              <span className="dot" style={{ background: colorByName(it.color)?.hex ?? it.product.hex }} /> {it.color} · Tam. {it.size}
             </p>
             {editable ? (
               <div className="bag-row">

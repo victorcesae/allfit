@@ -426,3 +426,11 @@ p { text-wrap: pretty; }
 .clear-confirm { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 4px 14px; font-size: 14px; color: var(--ink); }
 .clear-confirm .link-btn { color: var(--ink); font-weight: 600; }
 .clear-confirm .link-btn.danger { color: #a3203c; }
+
+/* ---------- colour palette + simulation ---------- */
+.swatches { gap: 10px; }
+.swatch { position: relative; width: 34px; height: 34px; }
+.swatch.has-photo::after { content: ""; position: absolute; right: -2px; bottom: -2px; width: 10px; height: 10px; border-radius: 50%; background: var(--paper); box-shadow: inset 0 0 0 3px var(--ink); }
+.sim-pill { position: absolute; right: 12px; top: 12px; z-index: 2; padding: 4px 10px; border-radius: var(--r); background: rgb(58 29 43 / 0.82); color: #fff; font-size: 12px; font-weight: 600; }
+.sim-pill.is-busy { background: rgb(58 29 43 / 0.6); }
+@media (max-width: 899.98px) { .sim-pill { top: 12px; right: 64px; } }

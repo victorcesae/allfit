@@ -2,12 +2,12 @@ import { imageUrl, type Product } from "../catalog";
 
 interface Props {
   product: Product;
-  variants: number;
+  colors: number;
   onOpen: (p: Product) => void;
   index: number;
 }
 
-export function ProductCard({ product: p, variants, onOpen, index }: Props) {
+export function ProductCard({ product: p, colors, onOpen, index }: Props) {
   const hasBack = p.photos.length > 1;
   return (
     <article className="card">
@@ -32,7 +32,7 @@ export function ProductCard({ product: p, variants, onOpen, index }: Props) {
         <p className="card-color">
           <span className="dot" style={{ background: p.hex }} />
           {p.color}
-          {variants > 1 && <span className="muted"> · {variants} cores</span>}
+          <span className="muted"> · {colors} cores disponíveis</span>
         </p>
       </div>
     </article>

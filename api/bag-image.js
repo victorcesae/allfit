@@ -8,7 +8,7 @@ import { PRODUCTS } from "./_products.js";
 const W = 1200, H = 630, PAD = 40, GAP = 16, TOP = 120;
 const BG = { r: 247, g: 240, b: 237, alpha: 1 };
 const SIZES = ["GG", "PP", "P", "M", "G"];
-const ITEM = new RegExp(`^(\\d{1,3})(${SIZES.join("|")})(\\d{0,2})$`);
+const ITEM = new RegExp(`^(\\d{1,3})(${SIZES.join("|")})(\\d{0,2})(?:C(\\d{1,2}))?$`); // C<n> = palette colour (collage shows the photo)
 
 function parseBag(code) {
   const items = [];

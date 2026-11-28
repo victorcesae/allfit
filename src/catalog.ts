@@ -1,4 +1,5 @@
 import data from "./data/catalog.json";
+import palette from "./data/colors.json";
 import { asset } from "./config";
 
 export type ProductType = "conjunto" | "top" | "cropped" | "macaquinho" | "macacao";
@@ -55,3 +56,8 @@ export const typeLabel: Record<ProductType, string> = {
   macaquinho: "Macaquinho",
   macacao: "Macacão",
 };
+
+/** Store palette: every colour the store produces (src/data/colors.json). */
+export interface StoreColor { name: string; hex: string }
+export const COLORS = palette.colors as StoreColor[];
+export const colorByName = (name: string) => COLORS.find((c) => c.name === name);

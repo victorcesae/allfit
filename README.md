@@ -16,6 +16,13 @@ npm run build    # gera dist/ (a Vercel publica automaticamente a cada push na m
 - `whatsapp`: número da dona com DDI + DDD, só dígitos (ex. `5511999998888`). Vazio = o WhatsApp abre e o cliente escolhe o contato.
 - `instagram`, `sizes`.
 
+## Cores da loja
+
+`src/data/colors.json` é a cartela de cores que a loja produz (nome + hex). O cliente pode escolher **qualquer** cor dessa lista em **qualquer** modelo; a cor escolhida vai na mensagem do WhatsApp, na sacola e no link compartilhado.
+- Se a cor escolhida já tem foto daquele modelo (mesmo nome de cor no catálogo), o site mostra a foto real.
+- Se não tem, o site **simula** a cor na foto (mantendo dobras e sombras) e mostra "Simulação de cor". As máscaras da peça ficam em `public/masks/` (`tools/garment_masks.py`).
+- Depois de trocar a cartela, rode `node tools/gen_api_data.mjs` (pré-visualizações do WhatsApp).
+
 ## Catálogo
 
 `src/data/catalog.json` — cada produto: nome, tipo (`conjunto | top | cropped | macaquinho | macacao`), peça de baixo do conjunto (`short | legging | flare | saia`), cor, família de cor (filtro) e `photos` = índices das fotos em `looks/` (ordenadas por nome; a primeira é a frente, a segunda as costas).

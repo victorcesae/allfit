@@ -1,0 +1,109 @@
+{
+  "_comment": "Store colour palette: every colour the store produces. Customers pick from this list for ANY model; the choice goes into the WhatsApp order. Replace with the store's real list (name + hex). Keep a name identical to a catalog colour to show that product's real photo instead of the colour simulation.",
+  "colors": [
+    {
+      "name": "Pink",
+      "hex": "#f72d8f"
+    },
+    {
+      "name": "Rosa Salmão",
+      "hex": "#f2a0a5"
+    },
+    {
+      "name": "Rosê",
+      "hex": "#c98482"
+    },
+    {
+      "name": "Coral",
+      "hex": "#f0503a"
+    },
+    {
+      "name": "Laranja",
+      "hex": "#f2582c"
+    },
+    {
+      "name": "Terracota",
+      "hex": "#c5513f"
+    },
+    {
+      "name": "Melancia",
+      "hex": "#e8334a"
+    },
+    {
+      "name": "Vermelho",
+      "hex": "#d01f25"
+    },
+    {
+      "name": "Vinho",
+      "hex": "#8a2445"
+    },
+    {
+      "name": "Ameixa",
+      "hex": "#6e2f55"
+    },
+    {
+      "name": "Lavanda",
+      "hex": "#7a80e0"
+    },
+    {
+      "name": "Orquídea",
+      "hex": "#d65fd6"
+    },
+    {
+      "name": "Azul",
+      "hex": "#1488d8"
+    },
+    {
+      "name": "Azul Piscina",
+      "hex": "#14a5dc"
+    },
+    {
+      "name": "Azul Royal",
+      "hex": "#3a3ad8"
+    },
+    {
+      "name": "Azul Marinho",
+      "hex": "#1e2a44"
+    },
+    {
+      "name": "Turquesa",
+      "hex": "#1ccbc0"
+    },
+    {
+      "name": "Verde Bandeira",
+      "hex": "#1f5c45"
+    },
+    {
+      "name": "Verde Petróleo",
+      "hex": "#0f6f6a"
+    },
+    {
+      "name": "Verde Sálvia",
+      "hex": "#8c9c88"
+    },
+    {
+      "name": "Café",
+      "hex": "#3b2421"
+    },
+    {
+      "name": "Chocolate",
+      "hex": "#5a3424"
+    },
+    {
+      "name": "Grafite",
+      "hex": "#3d3d3f"
+    },
+    {
+      "name": "Preto",
+      "hex": "#1b1d26"
+    },
+    {
+      "name": "Gelo",
+      "hex": "#d9dbe0"
+    },
+    {
+      "name": "Off-White",
+      "hex": "#efeae0"
+    }
+  ]
+}
