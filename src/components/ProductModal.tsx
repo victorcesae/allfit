@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { imageUrl, typeLabel, viewLabel, BOTTOMS, COLORS, colorByName, type Product, type StoreColor } from "../catalog";
+import { views as viewsOf, typeLabel, BOTTOMS, COLORS, colorByName, type Product, type StoreColor } from "../catalog";
 import { recolored } from "../recolor";
 import { STORE, money, unitPrice, cashPrice, isPlus } from "../config";
 import { whatsappUrl, whatsappSizeHelpUrl } from "../whatsapp";
@@ -24,6 +24,13 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
   const [simUrls, setSimUrls] = useState<string[] | null>(null);
   const [painting, setPainting] = useState(false);
   const dialog = useRef<HTMLDivElement>(null);
+  const views = viewsOf(p);
+  // front/back pairs turn in 3D: the studio looks, and the mannequin photos
+  const nLooks = p.looks ?? 0;
+  const split = p.looksPartial ? p.photos.length : nLooks;      // where the second group starts
+  const pairs = [[0, split], [split, views.length]]
+    .map(([a, b]) => [a, Math.min(b, a + 2)])
+    .filter(([a, b]) => b > a);
 
   useEffect(() => {
     setView(0);
@@ -32,7 +39,8 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
     setColor(p.color);
   }, [p.id, p.color]);
 
-  // colour simulation: repaint the photos when the chosen colour isn't the photographed one
+  // colour simulation: repaint the studio looks when the chosen colour isn't the photographed one;
+  // the photos on the mannequin always stay the real piece in its real colour
   const simulated = color !== p.color;
   useEffect(() => {
     if (!simulated) { setSimUrls(null); setPainting(false); return; }
@@ -40,20 +48,23 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
     if (!hex) return;
     let alive = true;
     setPainting(true);
-    Promise.all(p.photos.map((_, n) => recolored(p, n, hex)))
+    Promise.all(viewsOf(p).map((v) => (v.kind === "look" ? recolored(v, hex) : Promise.resolve(v.src))))
       .then((urls) => { if (alive) setSimUrls(urls); })
       .catch(() => { if (alive) setSimUrls(null); })
       .finally(() => { if (alive) setPainting(false); });
     return () => { alive = false; };
   }, [p, color, simulated]);
 
-  const photo = (n: number) => (simulated && simUrls?.[n]) || imageUrl(p, n);
+  const photo = (n: number) => (simulated && simUrls?.[n]) || views[n].src;
+  const pair = pairs.find(([a, b]) => view >= a && view < b);
 
   const pickColor = (c: StoreColor) => {
     if (c.name === p.color) return setColor(c.name);
     const real = variants.find((v) => v.color === c.name);   // this model photographed in that colour
     if (real) return onSwitch(real);
     setColor(c.name);
+    // the simulated colour shows on the studio looks only: switch to one if a mannequin photo is open
+    if (views[view].kind === "photo" && nLooks) setView(views.findIndex((v) => v.kind === "look"));
   };
 
   useEffect(() => {
@@ -61,8 +72,8 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
     dialog.current?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") setView((v) => (v + 1) % p.photos.length);
-      if (e.key === "ArrowLeft") setView((v) => (v - 1 + p.photos.length) % p.photos.length);
+      if (e.key === "ArrowRight") setView((v) => (v + 1) % views.length);
+      if (e.key === "ArrowLeft") setView((v) => (v - 1 + views.length) % views.length);
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -71,7 +82,7 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
       document.body.style.overflow = "";
       prev?.focus();
     };
-  }, [onClose, p.photos.length]);
+  }, [onClose, views.length]);
 
   const requireSize = () => {
     if (size) return true;
@@ -103,29 +114,30 @@ export function ProductModal({ product: p, variants, onClose, onSwitch, onAdd }:
 
         <div className="gallery">
           <div className="gallery-main">
-            {view < 2 ? (
+            {pair && pair[1] - pair[0] === 2 ? (
               <Turntable
-                key={p.id}
-                front={photo(0)}
-                back={p.photos.length > 1 ? photo(1) : undefined}
+                key={`${p.id}-${pair[0]}`}
+                front={photo(pair[0])}
+                back={photo(pair[0] + 1)}
                 alt={`${p.name} ${color}`}
-                side={view}
-                onSide={setView}
+                side={view - pair[0]}
+                onSide={(s) => setView(pair[0] + s)}
               />
             ) : (
               <div className="turntable">
-                <img className="tt-face" src={photo(view)} alt={`${p.name} ${color} — ${viewLabel(view)}`} width={1080} height={1350} />
+                <img className="tt-face" src={photo(view)} alt={`${p.name} ${color} — ${views[view].label}`} width={1080} height={1350} />
               </div>
             )}
-            {p.photos.length > 1 && <span className="view-pill">{viewLabel(view)}</span>}
-            {simulated && <span className={`sim-pill ${painting ? "is-busy" : ""}`}>{painting ? "Aplicando a cor…" : "Simulação de cor"}</span>}
+            {views.length > 1 && <span className="view-pill">{views[view].label}</span>}
+            {simulated && views[view].kind === "look" && <span className={`sim-pill ${painting ? "is-busy" : ""}`}>{painting ? "Aplicando a cor…" : "Simulação de cor"}</span>}
+            {simulated && views[view].kind === "photo" && nLooks > 0 && <span className="sim-pill">Foto real · cor {p.color}</span>}
           </div>
-          {p.photos.length > 1 && (
+          {views.length > 1 && (
             <div className="thumbs" role="tablist" aria-label="Fotos do produto">
-              {p.photos.map((_, n) => (
-                <button key={n} role="tab" aria-selected={n === view} className={`thumb ${n === view ? "is-active" : ""}`} onClick={() => setView(n)}>
+              {views.map((v, n) => (
+                <button key={v.src} role="tab" aria-selected={n === view} className={`thumb ${n === view ? "is-active" : ""} ${n === split && split && nLooks ? "is-first-photo" : ""}`} onClick={() => setView(n)}>
                   <img src={photo(n)} alt="" width={86} height={108} />
-                  <span>{viewLabel(n)}</span>
+                  <span>{v.label}</span>
                 </button>
               ))}
             </div>

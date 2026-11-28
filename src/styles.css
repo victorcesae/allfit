@@ -215,6 +215,12 @@ a { color: inherit; text-decoration: none; }
 .card-media { position: relative; display: block; width: 100%; aspect-ratio: 4/5; overflow: hidden; border-radius: var(--r); background: var(--cream); }
 .card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.45s var(--ease); }
 .card-img-back { opacity: 0; }
+/* studio look on top; on hover the real photo on the mannequin, labelled */
+.card-tag {
+  position: absolute; left: 8px; bottom: 8px; padding: 4px 8px; border-radius: 3px;
+  background: rgb(253 246 241 / 0.92); color: var(--ink-2); font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+  opacity: 0; transform: translateY(4px); transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); pointer-events: none;
+}
 .card-body { padding: 10px 2px 0; }
 .card-title { margin: 0 0 4px; font-size: 14px; font-weight: 500; line-height: 1.35; }
 .card-title button { text-align: left; }
@@ -222,6 +228,7 @@ a { color: inherit; text-decoration: none; }
 @media (min-width: 640px) { .card-body { padding-top: 14px; } .card-title { font-size: 15px; } .card-color { font-size: 13.5px; } }
 @media (hover: hover) {
   .card-media:hover .card-img-back { opacity: 1; }
+  .card-media:hover .card-tag { opacity: 1; transform: none; }
   .card-title button:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .empty { display: grid; justify-items: center; gap: 14px; padding: 60px 20px; color: var(--ink-2); text-align: center; }
@@ -279,6 +286,10 @@ a { color: inherit; text-decoration: none; }
 .thumb img { aspect-ratio: 4/5; object-fit: cover; }
 .thumb span { display: block; padding: 3px 0 5px; font-size: 11.5px; font-weight: 600; text-align: center; }
 .thumb.is-active { opacity: 1; box-shadow: inset 0 0 0 1.5px var(--ink); }
+/* studio looks first, then the real photos on the mannequin: a hairline between the two */
+.thumb.is-first-photo { margin-left: 9px; overflow: visible; }
+.thumb.is-first-photo::before { content: ""; position: absolute; left: -9px; top: 6px; bottom: 26px; width: 1px; background: var(--line-strong); }
+.thumb.is-first-photo img { border-radius: var(--r) var(--r) 0 0; }
 .details { display: flex; flex-direction: column; padding: 18px var(--gutter) 0; }
 .details-title { margin: 0; font-family: var(--serif); font-weight: 600; font-size: clamp(24px, 6.4vw, 34px); line-height: 1.1; letter-spacing: -0.015em; }
 .price-note { margin: 8px 0 16px; color: var(--ink-2); font-size: 15px; }

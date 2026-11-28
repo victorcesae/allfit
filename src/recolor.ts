@@ -1,10 +1,9 @@
-import { asset } from "./config";
-import { imageUrl, type Product } from "./catalog";
+import type { View } from "./catalog";
 
 /**
- * Colour simulation: repaints the garment in a product photo with another palette colour,
- * keeping the photo's own folds and shading. The garment mask (public/masks/<id>-<n>.png,
- * made by tools/garment_masks.py) keeps the mannequin, tags and backdrop untouched.
+ * Colour simulation: repaints the garment in a product picture with another palette colour,
+ * keeping the picture's own folds and shading. The garment mask (public/masks/<id>-<n>.png from
+ * tools/garment_masks.py, <id>-l<n>.png from tools/looks_cut.py) keeps the mannequin and backdrop untouched.
  */
 const cache = new Map<string, Promise<string>>();
 
@@ -22,12 +21,12 @@ const hexToRgb = (hex: string) => {
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 };
 
-export function recolored(p: Product, view: number, hex: string, maxW = 1080): Promise<string> {
-  const key = `${p.id}-${view}-${hex}-${maxW}`;
+export function recolored(view: View, hex: string, maxW = 1080): Promise<string> {
+  const key = `${view.src}-${hex}-${maxW}`;
   const hit = cache.get(key);
   if (hit) return hit;
   const job = (async () => {
-    const [photo, mask] = await Promise.all([load(imageUrl(p, view)), load(asset(`masks/${p.id}-${view}.png`))]);
+    const [photo, mask] = await Promise.all([load(view.src), load(view.mask)]);
     const scale = Math.min(1, maxW / photo.naturalWidth);
     const w = Math.round(photo.naturalWidth * scale);
     const h = Math.round(photo.naturalHeight * scale);
@@ -48,7 +47,7 @@ export function recolored(p: Product, view: number, hex: string, maxW = 1080): P
       const L = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
       sum += L; cnt++;
     }
-    if (!cnt) return imageUrl(p, view);
+    if (!cnt) return view.src;
     const mean = Math.max(8, sum / cnt);
     let [tr, tg, tb] = hexToRgb(hex);
     // very dark targets (Preto, Azul marinho): lift a little so folds and shading stay visible
